@@ -1,0 +1,17 @@
+{
+    "name": "IZTECH Graduate Application",
+    "description": "IZTECH Graduate Program Application",
+    "repository": "https://github.com/microbraino/gradapp",
+    "logo": "./public/node.svg",
+    "keywords": [
+        "iztech",
+        "iyte",
+        "graduate",
+        "program",
+        "master",
+        "phd",
+        "doctorate",
+        "program"
+    ],
+    "image": "heroku/nodejs"
+}
