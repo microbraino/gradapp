@@ -1,0 +1,6 @@
+{
+    "env": {
+        "MONGO_ATLAS_PW": "spy.net61",
+        "PORT": "3000"
+    }
+}
