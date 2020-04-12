@@ -2,9 +2,12 @@
   "name": "grad-app",
   "version": "1.0.0",
   "description": "IZTECH Graduate Program Application",
-  "main": "app.js",
+  "engines": {
+    "node": "12.x"
+  },
+  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "node test.js",
     "start": "node server.js"
   },
   "keywords": [
@@ -31,5 +34,13 @@
     "multer": "^1.4.2",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/microbraino/gradapp"
   }
 }
