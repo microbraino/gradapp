@@ -51,10 +51,10 @@ app.use('/accounts', accounts);
 
 const programs = require('./api/routes/programs');
 app.use('/programs', programs);
-/** 
+
 const notifications = require('./api/routes/notifications');
 app.use('/notifications', notifications);
-
+/** 
 const interviews = require('./api/routes/interviews');
 app.use('/interviews', interviews);
 
