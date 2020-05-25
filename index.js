@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const passport = require('passport');
 const path = require('path');
 
 // Bring in the database object
@@ -37,39 +36,35 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // BodyParser Middleware
 app.use(bodyParser.json());
-// Passport Middleware
-app.use(passport.initialize());
-app.use(passport.session());
 
-
+// Bring in the routes
 app.get('/', (req, res) => {
     return res.json({
-        message: "This is node.js role based authentication system"
+        success: true,
+        message: "Iztech Graduate Program Application API"
     });
 });
 
-// Create a custom middleware function
-const checkUserType = function (req, res, next) {
-    const userType = req.originalUrl.split('/')[1];
-    // Bring in the passport authentication starategy
-    require('./api/config/passport')(userType, passport);
-    next();
-};
-
-app.use(checkUserType);
+const accounts = require('./api/routes/accounts');
+app.use('/accounts', accounts);
 
 
+const programs = require('./api/routes/programs');
+app.use('/programs', programs);
+/** 
+const notifications = require('./api/routes/notifications');
+app.use('/notifications', notifications);
 
+const interviews = require('./api/routes/interviews');
+app.use('/interviews', interviews);
 
-// Bring in the user routes
-const users = require('./api/routes/users');
-app.use('/users', users);
-
-const admin = require('./api/routes/admin');
-app.use('/admin', admin);
+const documents = require('./api/routes/documents');
+app.use('/documents', documents);
+*/
 
 // Catch undefined routes
 app.use((req, res, next) => {
+    console.log("Undefined root attempt")
     const error = new Error("Not found");
     error.status = 404;
     next(error);
