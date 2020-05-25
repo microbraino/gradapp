@@ -61,6 +61,13 @@ exports.addNew = (req, res) => {
         });
 };
 
+exports.apply = (req, res) => {
+    const id = req.params.programId;
+    res.status(200).json({
+        success: true,
+        message: "Applied program successfully"
+    });
+};
 
 exports.getById = (req, res) => {
     const id = req.params.programId;

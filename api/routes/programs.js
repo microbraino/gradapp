@@ -3,14 +3,16 @@ const router = express.Router();
 const programController = require('../controllers/programs');
 const authenticate = require('../middlewares/authenticate')
 
-router.get("/", programController.getAll);
+router.get("/", programController.getAll);// public
 
-router.post("/", programController.addNew);
+router.post("/", authenticate, programController.addNew);
 
-router.get("/:programId", programController.getById);
+router.post("/apply/:programId", authenticate, programController.apply);
 
-router.patch("/:programId", programController.update);
+router.get("/:programId", programController.getById);//public
 
-router.delete("/:programId", programController.delete);
+router.patch("/:programId", authenticate, programController.update);
+
+router.delete("/:programId", authenticate, programController.delete);
 
 module.exports = router;

@@ -78,7 +78,6 @@ exports.profile = (req, res) => {
         const token = req.headers.authorization.split(" ")[1];
         const decoded = jwt.verify(token, config.secret);
         const jwt_payload = decoded.data;
-        //req.userData = decoded;
         Account.getById(jwt_payload._id, (err, account) => {
             if (err) return res.status(401).json({
                 success: false,
@@ -109,4 +108,59 @@ exports.profile = (req, res) => {
             message: 'Auth failed'
         });
     }
+};
+
+exports.update = (req, res) => {
+    const token = req.headers.authorization.split(" ")[1];
+    const decoded = jwt.verify(token, config.secret);
+    const jwt_payload = decoded.data;
+    const id = jwt_payload._id;
+    const updateOps = {};
+    const updatable = ["password", "phone", "address"];
+    for (const ops of req.body) {
+        if (ops.propName in updatable)
+            updateOps[ops.propName] = ops.value;
+    }
+    Account.update({ _id: id }, { $set: updateOps })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                message: 'Account updated',
+                payload: {
+                    account: result
+                }
+            });
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: null,
+                error: err
+            });
+        });
+};
+
+exports.delete = (req, res) => {
+    const id = req.params.programId;
+    Account.remove({ _id: id })
+        .exec()
+        .then(result => {
+            res.status(200).json({
+                success: true,
+                message: 'Account deleted',
+                payload: {
+                    account: result
+                }
+            })
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: null,
+                error: err
+            });
+        });
 };

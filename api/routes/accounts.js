@@ -9,4 +9,8 @@ router.post('/login', accountController.login);
 
 router.get('/profile', authenticate, accountController.profile);
 
+router.delete('/:profileId', authenticate, accountController.delete);
+
+router.patch('/:profileId', authenticate, accountController.update);
+
 module.exports = router;
