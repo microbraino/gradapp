@@ -7,8 +7,8 @@ router.get("/", authenticate, notificationController.getAll);
 
 router.post("/", authenticate, notificationController.send);
 
-router.get("/:notificationId", authenticate, notificationController.getNotificationById);
+router.get("/:notificationId", authenticate, notificationController.getById);
 
-router.delete("/:notificationId", authenticate, notificationController.deleteNotification);
+router.delete("/:notificationId", authenticate, notificationController.delete);
 
 module.exports = router;
