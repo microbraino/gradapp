@@ -1,5 +1,6 @@
 const Notification = require("../models/Notification");
 const config = require('../config/database');
+const jwt = require('jsonwebtoken');
 
 exports.getAll = (req, res) => {
     const token = req.headers.authorization.split(" ")[1];
