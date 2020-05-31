@@ -1,5 +1,5 @@
 const Notification = require("../models/Notification");
-const config = require('../config/database');
+const config = require('../config/general');
 const jwt = require('jsonwebtoken');
 
 exports.getAll = (req, res) => {

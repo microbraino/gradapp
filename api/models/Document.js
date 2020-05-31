@@ -6,15 +6,24 @@ const DocumentSchema = mongoose.Schema({
     title: {
         type: String
     },
-    name: {
+    originalname: {
+        type: String,
+    },
+    storename: {
         type: String,
         unique: true,
         index: true
     },
-    format: {
+    mimetype: {// file format
         type: String
     },
-    filePath: {
+    size: {
+        type: Number
+    },
+    source: {
+        type: String
+    },
+    destination: {
         type: String
     },
     editDate: {

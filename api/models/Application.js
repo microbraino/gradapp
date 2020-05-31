@@ -2,9 +2,21 @@ const mongoose = require('mongoose');
 const uniqueValidator = require('mongoose-unique-validator');
 
 
-// Applicant Schema
-const AapplicationFileSchema = mongoose.Schema({
-    photo: {            //application file start
+// Application Schema
+const AapplicationSchema = mongoose.Schema({
+    account: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Account',
+        unique: true,
+        index: true,
+        required: true
+    },
+    program: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Program'
+    },
+
+    photo: {            //====================application file start
         type: String
     },
     undergradTranscript: {
@@ -47,8 +59,7 @@ const AapplicationFileSchema = mongoose.Schema({
     masterTranscript: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'
-    },
-
+    },                      //====================application file end
 
     confirmApplication: {   // Confirm if there is no missing documents and all requirements are satisfied
         type: Boolean
@@ -66,6 +77,6 @@ const AapplicationFileSchema = mongoose.Schema({
 
 });
 
-AdminSchema.plugin(uniqueValidator);
+AapplicationSchema.plugin(uniqueValidator);
 
-module.exports = mongoose.model('Applicant', Applicant);
+module.exports = mongoose.model('Application', AapplicationSchema);

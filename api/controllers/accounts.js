@@ -1,10 +1,11 @@
 
 const jwt = require('jsonwebtoken');
-const config = require('../config/database');
+const config = require('../config/general');
 
 const Account = require('../models/Account');
+const Application = require('../models/Application');
 
-exports.register = (req, res) => {
+exports.registApplicant = (req, res) => {
     const newAccount = new Account({
         firstname: req.body.firstname,
         middlename: req.body.middlename,
@@ -24,11 +25,96 @@ exports.register = (req, res) => {
                 error: err
             });
         } else {
+            //create an application entity also
+            const newApplication = new Application({
+                account: account._id,
+                program: req.body.program
+            });
+            newApplication
+                .save()
+                .then(app => {
+                    return res.status(201).json({
+                        success: true,
+                        message: "account registered and new application file is created successfully.",
+                        payload: {
+                            account: account,
+                            application: app
+                        }
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                    res.status(500).json({
+                        success: false,
+                        message: null,
+                        error: err
+                    });
+                });
+        }
+    });
+};
+
+exports.registCoordinator = (req, res) => {
+    const newAccount = new Account({
+        firstname: req.body.firstname,
+        middlename: req.body.middlename,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        password: req.body.password,
+        phone: req.body.phone,
+        address: req.body.address,
+        role: "coordinator"
+    });
+    Account.createNew(newAccount, (err, account) => {
+        if (err) {
+            let message = "";
+            if (err.errors.email) message += "Email already exists.";
+            return res.status(409).json({
+                success: false,
+                message: message,
+                error: err
+            });
+        } else {
             return res.status(201).json({
                 success: true,
-                message: "account registration is successful.",
+                message: "new coordinator registered successfully",
                 payload: {
-                    account: account
+                    account: account,
+                    application: app
+                }
+            });
+        }
+    });
+};
+
+exports.registComitee = (req, res) => {
+    const newAccount = new Account({
+        firstname: req.body.firstname,
+        middlename: req.body.middlename,
+        lastname: req.body.lastname,
+        email: req.body.email,
+        password: req.body.password,
+        phone: req.body.phone,
+        address: req.body.address,
+        department: req.body.department,
+        role: "comitee"
+    });
+    Account.createNew(newAccount, (err, account) => {
+        if (err) {
+            let message = "";
+            if (err.errors.email) message += "Email already exists.";
+            return res.status(409).json({
+                success: false,
+                message: message,
+                error: err
+            });
+        } else {
+            return res.status(201).json({
+                success: true,
+                message: "new comitee member registered successfully",
+                payload: {
+                    account: account,
+                    application: app
                 }
             });
         }

@@ -35,6 +35,9 @@ const AccountSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    department: {
+        type: String
+    },
     role: {
         type: String,
         default: "applicant"

@@ -17,8 +17,8 @@ const NotificationSchema = mongoose.Schema({
         default: 'No Title'
     },
     date: {
-        type: String,
-        default: Date.now()
+        type: Date,
+        default: Date.now
     },
     note: {
         type: String

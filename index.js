@@ -5,7 +5,7 @@ const cors = require('cors');
 const path = require('path');
 
 // Bring in the database object
-const config = require('./api/config/database');
+const config = require('./api/config/general');
 
 // Mongodb Config
 mongoose.set('useCreateIndex', true);
@@ -54,13 +54,18 @@ app.use('/programs', programs);
 
 const notifications = require('./api/routes/notifications');
 app.use('/notifications', notifications);
-/** 
-const interviews = require('./api/routes/interviews');
-app.use('/interviews', interviews);
 
 const documents = require('./api/routes/documents');
 app.use('/documents', documents);
+
+const applications = require('./api/routes/applications');
+app.use('/applications', applications);
+/** 
+const interviews = require('./api/routes/interviews');
+app.use('/interviews', interviews);
 */
+
+
 
 // Catch undefined routes
 app.use((req, res, next) => {
