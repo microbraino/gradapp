@@ -4,15 +4,11 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 // Account Schema
 const AccountSchema = mongoose.Schema({
-    firstname: {                //preapllication informations
+    name: {                //preapllication informations
         type: String,
         required: true
     },
-    middlename: {
-        type: String,
-        required: false
-    },
-    lastname: {
+    surname: {
         type: String,
         required: true
     },
@@ -34,9 +30,6 @@ const AccountSchema = mongoose.Schema({
     address: {
         type: String,
         required: true
-    },
-    department: {
-        type: String
     },
     role: {
         type: String,
@@ -68,6 +61,16 @@ module.exports.createNew = function (newAccount, callback) {
             if (err) throw err;
             newAccount.password = hash;
             newAccount.save(callback);
+        });
+    });
+}
+
+// update  password
+module.exports.updatePassword = function (newPassword, account, callback) {
+    bcrypt.genSalt(10, (err, salt) => {
+        bcrypt.hash(newPassword, salt, (err, hash) => {
+            if (err) throw err;
+            Account.updateOne({ _id: account._id }, { password: hash }, callback);
         });
     });
 }

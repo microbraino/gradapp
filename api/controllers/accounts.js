@@ -1,21 +1,18 @@
-
+const Account = require('../models/Account');
+const Application = require('../models/Application');
 const jwt = require('jsonwebtoken');
 const config = require('../config/general');
 
-const Account = require('../models/Account');
-const Application = require('../models/Application');
-
 exports.registApplicant = (req, res) => {
     const newAccount = new Account({
-        firstname: req.body.firstname,
-        middlename: req.body.middlename,
-        lastname: req.body.lastname,
+        name: req.body.name,
+        surname: req.body.surname,
         email: req.body.email,
         password: req.body.password,
         phone: req.body.phone,
         address: req.body.address
     });
-    Account.createNew(newAccount, (err, account) => {
+    Account.createNew(newAccount, (err, newAccount) => {
         if (err) {
             let message = "";
             if (err.errors.email) message += "Email already exists.";
@@ -27,7 +24,7 @@ exports.registApplicant = (req, res) => {
         } else {
             //create an application entity also
             const newApplication = new Application({
-                account: account._id,
+                applicant: newAccount._id,
                 program: req.body.program
             });
             newApplication
@@ -37,7 +34,7 @@ exports.registApplicant = (req, res) => {
                         success: true,
                         message: "account registered and new application file is created successfully.",
                         payload: {
-                            account: account,
+                            account: newAccount,
                             application: app
                         }
                     });
@@ -54,16 +51,21 @@ exports.registApplicant = (req, res) => {
     });
 };
 
-exports.registCoordinator = (req, res) => {
+exports.registStaff = (req, res) => {
+    if (!config.roles.includes(req.body.role))
+        return res.status(409).json({
+            success: false,
+            message: "invalid role entry. valid roles " + config.roles,
+            error: "invalid role entry"
+        });
     const newAccount = new Account({
-        firstname: req.body.firstname,
-        middlename: req.body.middlename,
-        lastname: req.body.lastname,
+        role: req.body.role,
+        name: req.body.name,
+        surname: req.body.surname,
         email: req.body.email,
         password: req.body.password,
         phone: req.body.phone,
-        address: req.body.address,
-        role: "coordinator"
+        address: req.body.address
     });
     Account.createNew(newAccount, (err, account) => {
         if (err) {
@@ -77,44 +79,9 @@ exports.registCoordinator = (req, res) => {
         } else {
             return res.status(201).json({
                 success: true,
-                message: "new coordinator registered successfully",
+                message: "new staff registered successfully",
                 payload: {
-                    account: account,
-                    application: app
-                }
-            });
-        }
-    });
-};
-
-exports.registComitee = (req, res) => {
-    const newAccount = new Account({
-        firstname: req.body.firstname,
-        middlename: req.body.middlename,
-        lastname: req.body.lastname,
-        email: req.body.email,
-        password: req.body.password,
-        phone: req.body.phone,
-        address: req.body.address,
-        department: req.body.department,
-        role: "comitee"
-    });
-    Account.createNew(newAccount, (err, account) => {
-        if (err) {
-            let message = "";
-            if (err.errors.email) message += "Email already exists.";
-            return res.status(409).json({
-                success: false,
-                message: message,
-                error: err
-            });
-        } else {
-            return res.status(201).json({
-                success: true,
-                message: "new comitee member registered successfully",
-                payload: {
-                    account: account,
-                    application: app
+                    account: account
                 }
             });
         }
@@ -159,12 +126,40 @@ exports.login = (req, res) => {
     });
 };
 
+exports.updatePass = (req, res) => {
+    const email = req.account.email;
+    const oldPassword = req.body.old;
+    const newPassword = req.body.new;
+
+    Account.comparePassword(oldPassword, req.account.password, (err, isMatch) => {
+        if (err) throw err;
+        if (!isMatch)
+            return res.status(401).json({
+                success: false,
+                message: "invalid email or password"
+            });
+        Account.updatePassword(newPassword, req.account, (err, result) => {
+            if (err) throw err;
+            if (result.nModified == 0)
+                res.status(500).json({
+                    success: false,
+                    message: 'An error occured during update password',
+                    error: err
+                });
+            return res.status(200).json({
+                success: true,
+                message: "password updated",
+                payload: {
+                    result: result
+                }
+            });
+        })
+    });
+};
+
 exports.profile = (req, res) => {
     try {
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, config.secret);
-        const jwt_payload = decoded.data;
-        Account.getById(jwt_payload._id, (err, account) => {
+        Account.getById(req.account._id, (err, account) => {
             if (err) return res.status(401).json({
                 success: false,
                 message: "Unknown error occured while reaching the account data",
@@ -174,7 +169,7 @@ exports.profile = (req, res) => {
                 success: false,
                 message: "Unknown error occured while reaching the account data"
             });
-            if (jwt_payload.password === account.password) {
+            if (req.account.password === account.password) {
                 return res.status(200).json({
                     success: true,
                     message: "account deatils",
@@ -196,18 +191,38 @@ exports.profile = (req, res) => {
     }
 };
 
+exports.getAll = (req, res) => {
+    Account.find()
+        .exec()
+        .then(docs => {
+            const response = {
+                success: true,
+                message: null,
+                payload: {
+                    count: docs.length,
+                    accounts: docs
+                }
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: 'An error occured while retrieving data',
+                error: err
+            });
+        });
+};
+
 exports.update = (req, res) => {
-    const token = req.headers.authorization.split(" ")[1];
-    const decoded = jwt.verify(token, config.secret);
-    const jwt_payload = decoded.data;
-    const id = jwt_payload._id;
     const updateOps = {};
-    const updatable = ["password", "phone", "address"];
+    const updatable = ["phone", "address"];
     for (const ops of req.body) {
-        if (ops.propName in updatable)
+        if (updatable.includes(ops.propName))
             updateOps[ops.propName] = ops.value;
     }
-    Account.update({ _id: id }, { $set: updateOps })
+    Account.updateOne({ _id: req.account._id }, { $set: updateOps })
         .exec()
         .then(result => {
             res.status(200).json({
@@ -222,30 +237,71 @@ exports.update = (req, res) => {
             console.log(err);
             res.status(500).json({
                 success: false,
-                message: null,
+                message: 'An error occured while retrieving data',
+                error: err
+            });
+        });
+};
+
+exports.updateById = (req, res) => {
+    const id = req.params.profileId;
+    const updateOps = {};
+    const updatable = ["role", "phone", "address"];
+    for (const ops of req.body) {
+        if (updatable.includes(ops.propName))
+            updateOps[ops.propName] = ops.value;
+    }
+    Account.updateOne({ _id: id }, { $set: updateOps })
+        .exec()
+        .then(result => {
+            //if (result.nModified > 0)
+            res.status(200).json({
+                success: true,
+                message: 'Account updated',
+                payload: {
+                    account: result
+                }
+            });
+            // else
+            //     res.status(404).json({
+            //         success: false,
+            //         message: "No valid entry found for provided ID"
+            //     });
+        })
+        .catch(err => {
+            res.status(500).json({
+                success: false,
+                message: 'An error occured while retrieving data',
                 error: err
             });
         });
 };
 
 exports.delete = (req, res) => {
-    const id = req.params.programId;
-    Account.remove({ _id: id })
+    const id = req.params.profileId;
+    Account.deleteOne({ _id: id })
         .exec()
         .then(result => {
-            res.status(200).json({
-                success: true,
-                message: 'Account deleted',
-                payload: {
-                    account: result
-                }
-            })
+            if (result.deletedCount >= 1)
+                res.status(200).json({
+                    success: true,
+                    message: 'Account deleted',
+                    payload: {
+                        account: result
+                    }
+                })
+            else
+                res.status(500).json({
+                    success: false,
+                    message: 'No valid entry found for provided ID',
+                    error: err
+                });
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({
                 success: false,
-                message: null,
+                message: 'An error occured while retrieving data',
                 error: err
             });
         });

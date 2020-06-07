@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const router = require('express').Router();
 const authenticate = require('../middlewares/authenticate');
 const multer = require('multer');
-const config = require('../config/general')
+const config = require('../config/general');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -37,12 +37,19 @@ const upload = multer({
 
 const documentController = require('../controllers/documents');
 
-router.get("/", authenticate, documentController.getAll);
+//get all documents in database
+router.get("/all", authenticate(['admin', 'gradschool', 'department']), documentController.getAll);
 
-router.get("/:documentId", authenticate, documentController.getById);
+//get documents of authenticated applicant
+//router.get("/", authenticate(['applicant']), documentController.getForApplicant);
 
-router.post("/upload/", authenticate, upload.single('document'), documentController.upload);
+//get documents by its id
+router.get("/:documentId", authenticate(['admin', 'gradschool', 'department']), documentController.getById);
 
-router.delete("/:documentId", authenticate, documentController.delete);
+// upload a document
+router.post("/upload/", authenticate(['applicant']), upload.single('document'), documentController.upload);
+
+// delete a document
+router.delete("/:documentId", authenticate(['applicant']), documentController.delete);
 
 module.exports = router;

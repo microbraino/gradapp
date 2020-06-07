@@ -3,5 +3,6 @@ module.exports = {
     secret: 'commerchant-secret',
     tokenTTL: 86400, // for 1 week time in seconds
     documentPath: './documents',
-    maxFileSize: 1024 * 1024 * 8
+    maxFileSize: 1024 * 1024 * 8,
+    roles: ["su", "admin", "applicant", "gradschool", "department"]
 }

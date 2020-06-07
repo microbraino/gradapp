@@ -3,18 +3,33 @@ const router = express.Router();
 const accountController = require('../controllers/accounts');
 const authenticate = require('../middlewares/authenticate');
 
+// regist an applicant
 router.post('/register', accountController.registApplicant);
 
-router.post('/coordinator_register', authenticate, accountController.registCoordinator);// admin usage only
+// regist an staff in desired role
+router.post('/staffregister', authenticate(['admin']), accountController.registStaff);
 
-router.post('/comitee_register', authenticate, accountController.registComitee);// admin usage only
-
+// login for all other account roles
 router.post('/login', accountController.login);
 
-router.get('/profile', authenticate, accountController.profile);
+// update password
+router.patch('/password', authenticate(['admin', 'applicant', 'gradschool', 'department']), accountController.updatePass);
 
-router.delete('/:profileId', authenticate, accountController.delete);//admin usage only
+// get the entered tokens payload for authorization check
+router.get('/profile', authenticate(['admin', 'applicant', 'gradschool', 'department']), accountController.profile);
 
-router.patch('/:profileId', authenticate, accountController.update);// admin, account usage
+// update the authorized account
+router.patch('/profile', authenticate(['admin', 'applicant', 'gradschool', 'department']), accountController.update);
+
+// get all registered accounts
+router.get('/all', authenticate(['admin']), accountController.getAll);
+
+// delete an account by its id
+router.delete('/:profileId', authenticate(['admin']), accountController.delete);
+
+// update an account by its id
+router.patch('/:profileId', authenticate(['admin']), accountController.updateById);
+
+
 
 module.exports = router;

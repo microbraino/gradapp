@@ -3,16 +3,19 @@ const router = express.Router();
 const programController = require('../controllers/programs');
 const authenticate = require('../middlewares/authenticate')
 
-router.get("/", programController.getAll);// public
+// get all programs in database
+router.get("/all", programController.getAll);
 
-router.post("/", authenticate, programController.addNew);
+// create new program
+router.post("/", authenticate(['gradschool']), programController.addNew);
 
-router.post("/apply/:programId", authenticate, programController.apply);
+// get program by its id
+router.get("/:programId", authenticate(['admin', 'gradschool']), programController.getById);
 
-router.get("/:programId", programController.getById);//public
+// update program by its id
+router.put("/:programId", authenticate(['admin', 'gradschool']), programController.update);
 
-router.patch("/:programId", authenticate, programController.update);
-
-router.delete("/:programId", authenticate, programController.delete);
+// delete a program by its id
+router.delete("/:programId", authenticate(['admin', 'gradschool']), programController.delete);
 
 module.exports = router;

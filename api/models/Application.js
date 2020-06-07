@@ -4,7 +4,7 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 // Application Schema
 const AapplicationSchema = mongoose.Schema({
-    account: {
+    applicant: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Account',
         unique: true,
@@ -15,9 +15,9 @@ const AapplicationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Program'
     },
-
     photo: {            //====================application file start
-        type: String
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Document'
     },
     undergradTranscript: {
         type: mongoose.Schema.Types.ObjectId,
@@ -53,28 +53,19 @@ const AapplicationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'
     },
-    degreeToApply: {
-        type: String        //PhD || Masters || PhD without masters degree
-    },
     masterTranscript: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'
-    },                      //====================application file end
-
-    confirmApplication: {   // Confirm if there is no missing documents and all requirements are satisfied
+    },
+    applicationConfirmed: {   // Confirm if there is no missing documents and all requirements are satisfied
         type: Boolean
     },
-    interviewDate: {    // Setted by the department. Announced by the gradschool
-        type: Date
-    },
-    assessmentResult: {     // Assessment results is gived by the department after interview
+    assessmentResult: {    // Assessment results is gived by the department`s comitee after interview
         type: Number
     },
-    confirmAssessment: {    // Application is confirmed by the gradschool after receive the assessment results
+    assessmentConfirmed: {   // assesment is confirmed by gradschool
         type: Boolean
     }
-
-
 });
 
 AapplicationSchema.plugin(uniqueValidator);

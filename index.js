@@ -60,10 +60,9 @@ app.use('/documents', documents);
 
 const applications = require('./api/routes/applications');
 app.use('/applications', applications);
-/** 
+
 const interviews = require('./api/routes/interviews');
 app.use('/interviews', interviews);
-*/
 
 
 

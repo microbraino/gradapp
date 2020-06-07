@@ -102,7 +102,7 @@ exports.delete = (req, res) => {
             if (doc) {
                 //remove file from server
                 fs.unlink(doc.destination + '/' + doc.storename, (err) => {
-                    if (err) {
+                    if (err && err.code != 'ENOENT') {
                         console.log(err);
                         res.status(500).json({
                             success: false,
@@ -110,7 +110,7 @@ exports.delete = (req, res) => {
                             error: err
                         });
                     };
-                    console.log('successfully deleted');
+                    //console.log('successfully deleted');
                 });
                 //remove metadata from database
                 Document.remove({ _id: id })

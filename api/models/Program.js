@@ -3,6 +3,10 @@ const uniqueValidator = require('mongoose-unique-validator');
 
 // Program Schema
 const ProgramSchema = mongoose.Schema({
+    coordinator: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Account'
+    },
     name: {
         type: String,
         unique: true,
@@ -13,10 +17,6 @@ const ProgramSchema = mongoose.Schema({
         required: true
     },
     degree: {
-        type: String,
-        required: true
-    },
-    coordinator: {
         type: String,
         required: true
     },

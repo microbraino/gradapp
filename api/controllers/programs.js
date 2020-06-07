@@ -2,6 +2,7 @@ const Program = require("../models/Program");
 
 exports.getAll = (req, res) => {
     Program.find()
+        .populate('coordinator', 'name surname email phone address -_id')
         .exec()
         .then(docs => {
             const response = {
@@ -126,16 +127,17 @@ exports.update = (req, res) => {
 
 exports.delete = (req, res) => {
     const id = req.params.programId;
-    Program.remove({ _id: id })
+    Program.deleteOne({ _id: id })
         .exec()
         .then(result => {
-            res.status(200).json({
-                success: true,
-                message: 'Program deleted',
-                payload: {
-                    program: result
-                }
-            })
+            if (result.deletedCount >= 1)
+                res.status(200).json({
+                    success: true,
+                    message: 'Program deleted',
+                    payload: {
+                        program: result
+                    }
+                })
         })
         .catch(err => {
             console.log(err);

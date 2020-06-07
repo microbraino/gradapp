@@ -30,6 +30,10 @@ const NotificationSchema = mongoose.Schema({
     visibleFrom: {
         type: Boolean,
         default: true
+    },
+    seen: {
+        type: Boolean,
+        default: false
     }
 
 });
