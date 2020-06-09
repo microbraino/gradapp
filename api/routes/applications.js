@@ -18,13 +18,13 @@ router.put("/", authenticate(['applicant']), applicationController.update);
 router.put("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.updateById);
 
 // confirm application belongs to a spesific id
-router.patch("confirm/:applicationId", authenticate(['gradschool']), applicationController.confirmApplication);
+router.get("confirm/:applicationId", authenticate(['gradschool']), applicationController.confirmApplication);
 
 // assess the application after interviev is done.
-router.patch("/assess/:applicationId", authenticate(['department']), applicationController.assessApplication);
+router.get("/assess/:applicationId", authenticate(['department']), applicationController.assessApplication);
 
 // accept assessment result
-router.patch("/accept/:applicationId", authenticate(['gradschool']), applicationController.confirmAssessment);
+router.get("/accept/:applicationId", authenticate(['gradschool']), applicationController.confirmAssessment);
 
 // get all applications results that announced
 router.get("/results", authenticate(['gradschool']), applicationController.getResults);//accept assessment grade

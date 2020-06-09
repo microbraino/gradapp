@@ -2,7 +2,7 @@ const jwt = require('jsonwebtoken');
 const router = require('express').Router();
 const authenticate = require('../middlewares/authenticate');
 const multer = require('multer');
-const config = require('../config/general');
+const config = require('../config/cors');
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {

@@ -3,9 +3,12 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const path = require('path');
+const swaggerUi = require('swagger-ui-express');
+
+
 
 // Bring in the database object
-const config = require('./api/config/general');
+const config = require('./api/config/cors');
 
 // Mongodb Config
 mongoose.set('useCreateIndex', true);
@@ -38,12 +41,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 
 // Bring in the routes
-app.get('/', (req, res) => {
-    return res.json({
-        success: true,
-        message: "Iztech Graduate Program Application API"
-    });
-});
+const swaggerDocument = require('./swagger.json');//swagger route is on index page
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const accounts = require('./api/routes/accounts');
 app.use('/accounts', accounts);

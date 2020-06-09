@@ -1,7 +1,7 @@
 const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 const Account = require('../models/Account');
-const config = require('../config/database');
+const config = require('../config/cors');
 
 
 // To authtenticate the User by JWT Startegy

@@ -1,7 +1,7 @@
 const Account = require('../models/Account');
 const Application = require('../models/Application');
 const jwt = require('jsonwebtoken');
-const config = require('../config/general');
+const config = require('../config/cors');
 
 exports.registApplicant = (req, res) => {
     const newAccount = new Account({
@@ -216,12 +216,13 @@ exports.getAll = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const updateOps = {};
     const updatable = ["phone", "address"];
-    for (const ops of req.body) {
-        if (updatable.includes(ops.propName))
-            updateOps[ops.propName] = ops.value;
-    }
+    const keys = Object.keys(req.body);
+    const updateOps = {};
+    keys.forEach(key => {
+        if (updatable.includes(key))
+            updateOps[key] = req.body[key];
+    });
     Account.updateOne({ _id: req.account._id }, { $set: updateOps })
         .exec()
         .then(result => {
@@ -244,13 +245,14 @@ exports.update = (req, res) => {
 };
 
 exports.updateById = (req, res) => {
-    const id = req.params.profileId;
-    const updateOps = {};
+    const id = req.params.accountId;
     const updatable = ["role", "phone", "address"];
-    for (const ops of req.body) {
-        if (updatable.includes(ops.propName))
-            updateOps[ops.propName] = ops.value;
-    }
+    const keys = Object.keys(req.body);
+    const updateOps = {};
+    keys.forEach(key => {
+        if (updatable.includes(key))
+            updateOps[key] = req.body[key];
+    });
     Account.updateOne({ _id: id }, { $set: updateOps })
         .exec()
         .then(result => {

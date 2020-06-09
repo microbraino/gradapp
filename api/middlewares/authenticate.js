@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('../config/general');
+const config = require('../config/cors');
 const Account = require('../models/Account');
 // roles: admin, applicant, gradschool,  department
 module.exports = function (roles) {

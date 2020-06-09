@@ -1,0 +1,1545 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "description": "This is a Graduation Application Management System.  It is implemented on NodeJs with REST API Architecture. You can find\nout source code on\n[Github](https://github.com/microbraino/gradapp)\n",
+        "version": "1.0.0",
+        "title": "Graduate Application",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "abdulkadir.kahraman@outlook.com"
+        },
+        "license": {
+            "name": "MIT",
+            "url": "https://opensource.org/licenses/MIT"
+        }
+    },
+    "servers": [
+        {
+            "description": "Heroku Server",
+            "url": "http://commerchant.herokuapp.com"
+        }
+    ],
+    "tags": [
+        {
+            "name": "master",
+            "description": "Master's Degrees",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://gradapp.herokuapp.com"
+            }
+        },
+        {
+            "name": "doctorate",
+            "description": "Doctoral Degrees",
+            "externalDocs": {
+                "description": "Find out more",
+                "url": "http://gradapp.herokuapp.com"
+            }
+        },
+        {
+            "name": "iztech",
+            "description": "Izmir Insitute of Technology",
+            "externalDocs": {
+                "description": "Find out more about our store",
+                "url": "http://iyte.edu.tr/"
+            }
+        }
+    ],
+    "paths": {
+        "/accounts/register": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Regist a new applicant to the system",
+                "operationId": "registApplicant",
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "account registered and new application file is created successfully"
+                                        },
+                                        "payload": {
+                                            "$ref": "#/components/schemas/Account"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Email already exists"
+                    }
+                },
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Register"
+                }
+            }
+        },
+        "/accounts/staffregister": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Regist a new staff to the addmisson database",
+                "operationId": "registStaff",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/StaffRegister"
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created successfully",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "New staff registered successfully"
+                                        },
+                                        "payload": {
+                                            "$ref": "#/components/schemas/Account"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Email already exists"
+                    },
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/accounts/login": {
+            "post": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Logs user into the system",
+                "operationId": "login",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Login"
+                },
+                "responses": {
+                    "200": {
+                        "description": "Invalid username/password supplied",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "success": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Login successful"
+                                        },
+                                        "payload": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid username/password supplied"
+                    }
+                }
+            }
+        },
+        "/accounts/logout": {
+            "get": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Logs out current logged in account session",
+                "operationId": "logout",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/accounts/password": {
+            "patch": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "updatePassword",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updatePassword"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/accounts/profile": {
+            "get": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "getProfile",
+                "responses": {
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "updateProfile",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updateProfile"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/accounts/all": {
+            "get": {
+                "tags": [
+                    "account"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "getAllAccounts",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/accounts/{profileId}": {
+            "patch": {
+                "parameters": [
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "description": "ID of account that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "getAccountById",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updateProfile"
+                },
+                "responses": {
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "profileId",
+                        "in": "path",
+                        "description": "ID of account that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "account"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "deleteAccountById",
+                "responses": {
+                    "401": {
+                        "$ref": "#/components/responses/UnauthorizedError"
+                    },
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications/all": {
+            "get": {
+                "tags": [
+                    "applications"
+                ],
+                "summary": "Get all applications in database",
+                "operationId": "getAllapplications",
+                "responses": {
+                    "200": {
+                        "$ref": "#/components/responses/AllApplications"
+                    },
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications": {
+            "get": {
+                "tags": [
+                    "applications"
+                ],
+                "summary": "get application of current logged in account session",
+                "operationId": "getApplication",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "applications"
+                ],
+                "summary": "Update some permited field of application of current logged in account session",
+                "operationId": "updateApplication",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications/{applicationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "summary": "get application by application Id",
+                "operationId": "getApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "summary": "Update application by application Id",
+                "operationId": "updateApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "summary": "Update application by Id",
+                "operationId": "deleteApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications/results": {
+            "get": {
+                "tags": [
+                    "applications"
+                ],
+                "summary": "List all result of announced applications",
+                "operationId": "getApplicationResults",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications/assess/{applicationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "assessApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications/accept/{applicationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "acceptApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications/confirm/{applicationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "summary": "Update the password of current logged in account session",
+                "operationId": "confirmApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/programs": {
+            "post": {
+                "tags": [
+                    "programs"
+                ],
+                "summary": "Create new program",
+                "operationId": "addNewProgram",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Program"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/programs/all": {
+            "get": {
+                "tags": [
+                    "programs"
+                ],
+                "summary": "List all programs that announced",
+                "operationId": "getAllPrograms",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/programs/{programId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "programId",
+                        "in": "path",
+                        "description": "ID of Program that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "programs"
+                ],
+                "summary": "Get Program by Id",
+                "operationId": "getProgramById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "programId",
+                        "in": "path",
+                        "description": "ID of Program that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "programs"
+                ],
+                "summary": "Update Program by Id",
+                "operationId": "updateProgramById",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Program"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "programId",
+                        "in": "path",
+                        "description": "ID of Program that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "programs"
+                ],
+                "summary": "Delete Program by Id",
+                "operationId": "deleteProgramById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/notifications/all": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "List all Notifications in database",
+                "operationId": "getAllNotifications",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/notifications": {
+            "get": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "List all Notifications of current logged in account session",
+                "operationId": "getNotifications",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Send Notification by logged in account session",
+                "operationId": "sendNotification",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Notification"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/notificationId/{notificationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "in": "path",
+                        "description": "ID of Notification that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Get Notification by Id",
+                "operationId": "getNotificationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "in": "path",
+                        "description": "ID of Notification that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Delete Notification by Id",
+                "operationId": "deleteNotificationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/notificationId/see/{notificationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "in": "path",
+                        "description": "ID of Notification that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "notifications"
+                ],
+                "summary": "Mark Notification as seen",
+                "operationId": "seeNotification",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/documents/all": {
+            "get": {
+                "tags": [
+                    "documents"
+                ],
+                "summary": "List all Documents in database",
+                "operationId": "getAllDocuments",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/documents": {
+            "post": {
+                "tags": [
+                    "documents"
+                ],
+                "summary": "Upload Document to add into the application file",
+                "operationId": "sendNotification",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Document"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/documents/{documentId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "in": "path",
+                        "description": "ID of Notification that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "documents"
+                ],
+                "summary": "Get Notification by Id",
+                "operationId": "getNotificationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "notificationId",
+                        "in": "path",
+                        "description": "ID of Notification that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "documents"
+                ],
+                "summary": "Delete Notification by Id",
+                "operationId": "deleteNotificationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/interviews": {
+            "get": {
+                "tags": [
+                    "interviews"
+                ],
+                "summary": "Get the Interview of current logged in account session",
+                "operationId": "getInterview",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "interviews"
+                ],
+                "summary": "Set an Interview",
+                "operationId": "setInterview",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Interview"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/interviews/all": {
+            "get": {
+                "tags": [
+                    "interviews"
+                ],
+                "summary": "Get all setted Interviews",
+                "operationId": "getAllInterviews",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/interviews/list": {
+            "get": {
+                "tags": [
+                    "interviews"
+                ],
+                "summary": "List all announced Interview",
+                "operationId": "listAllInterviews",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/interviews/{interviewtId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "interviewId",
+                        "in": "path",
+                        "description": "ID of Interview that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "interviews"
+                ],
+                "summary": "Get Notification by Id",
+                "operationId": "getNotificationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
+                "parameters": [
+                    {
+                        "name": "interviewId",
+                        "in": "path",
+                        "description": "ID of Interview that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "interviews"
+                ],
+                "summary": "Update Interview by Id",
+                "operationId": "updateInterview",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Interview"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "interviewId",
+                        "in": "path",
+                        "description": "ID of Interview that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "interviews"
+                ],
+                "summary": "Delete Interview by Id",
+                "operationId": "deleteNotificationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        }
+    },
+    "externalDocs": {
+        "description": "Find out more about Swagger",
+        "url": "http://swagger.io"
+    },
+    "components": {
+        "schemas": {
+            "Account": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "surname",
+                    "email",
+                    "password",
+                    "phone",
+                    "address",
+                    "role"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "surname": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    },
+                    "phone": {
+                        "type": "string"
+                    },
+                    "address": {
+                        "type": "string"
+                    },
+                    "role": {
+                        "type": "string",
+                        "enum": [
+                            "applicant",
+                            "admin",
+                            "gradschool",
+                            "department"
+                        ]
+                    }
+                }
+            },
+            "Application": {
+                "type": "object",
+                "required": [
+                    "applicant"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "applicant": {
+                        "type": "string"
+                    },
+                    "program": {
+                        "type": "string"
+                    },
+                    "photo": {
+                        "type": "string"
+                    },
+                    "undergradTranscript": {
+                        "type": "string"
+                    },
+                    "alesResult": {
+                        "type": "string"
+                    },
+                    "englishExamResult": {
+                        "type": "string"
+                    },
+                    "referenceLetters": {
+                        "type": "string"
+                    },
+                    "statementOfPurpose": {
+                        "type": "string"
+                    },
+                    "nationality": {
+                        "type": "string"
+                    },
+                    "passportCopy": {
+                        "type": "string"
+                    },
+                    "doesWork": {
+                        "type": "boolean"
+                    },
+                    "permissionLetter": {
+                        "type": "string"
+                    },
+                    "masterTranscript": {
+                        "type": "string"
+                    },
+                    "applicationConfirmed": {
+                        "type": "boolean"
+                    },
+                    "assessmentResult": {
+                        "type": "number"
+                    },
+                    "assessmentConfirmed": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Document": {
+                "type": "object",
+                "required": [
+                    "applicant"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "originalname": {
+                        "type": "string"
+                    },
+                    "storename": {
+                        "type": "string"
+                    },
+                    "mimetype": {
+                        "type": "string"
+                    },
+                    "size": {
+                        "type": "integer"
+                    },
+                    "source": {
+                        "type": "string"
+                    },
+                    "destination": {
+                        "type": "string"
+                    },
+                    "editDate": {
+                        "type": "string",
+                        "example": "2020-06-25T00:00:00.000Z"
+                    },
+                    "iscomplete": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Interview": {
+                "type": "object",
+                "required": [
+                    "applicant"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "applicant": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "example": "2020-06-25T00:00:00.000Z"
+                    },
+                    "location": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Notification": {
+                "type": "object",
+                "required": [
+                    "applicant"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "from": {
+                        "type": "string"
+                    },
+                    "to": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "note": {
+                        "type": "string"
+                    },
+                    "visibleTo": {
+                        "type": "boolean"
+                    },
+                    "visibleFrom": {
+                        "type": "boolean"
+                    },
+                    "seen": {
+                        "type": "boolean"
+                    }
+                }
+            },
+            "Program": {
+                "type": "object",
+                "required": [
+                    "applicant"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "coordinator": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "department": {
+                        "type": "string"
+                    },
+                    "degree": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "announceDate": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "applicationDeadline": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "alesRequirement": {
+                        "type": "boolean"
+                    },
+                    "sgkRequirement": {
+                        "type": "boolean"
+                    },
+                    "masterRequirement": {
+                        "type": "boolean"
+                    },
+                    "quota": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "requestBodies": {
+            "Register": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "John"
+                                },
+                                "surname": {
+                                    "type": "string",
+                                    "example": "Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "example@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "ab123"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": 15351234567
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "example": "2757  Spring Haven Trail, Livingston, NJ"
+                                }
+                            }
+                        }
+                    }
+                },
+                "description": "Account object that needs to be added to the database",
+                "required": true
+            },
+            "StaffRegister": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "name": {
+                                    "type": "string",
+                                    "example": "John"
+                                },
+                                "surname": {
+                                    "type": "string",
+                                    "example": "Doe"
+                                },
+                                "email": {
+                                    "type": "string",
+                                    "example": "example@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "ab123"
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": 15351234567
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "example": "2757  Spring Haven Trail, Livingston, NJ"
+                                },
+                                "role": {
+                                    "type": "string",
+                                    "enum": [
+                                        "applicant",
+                                        "admin",
+                                        "gradschool",
+                                        "department"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "Login": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "example@gmail.com"
+                                },
+                                "password": {
+                                    "type": "string",
+                                    "example": "ab123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "updatePassword": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "old": {
+                                    "type": "string",
+                                    "example": "ab123"
+                                },
+                                "new": {
+                                    "type": "string",
+                                    "example": "ab321"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "updateProfile": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "phone": {
+                                    "type": "string",
+                                    "example": 15351234567
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "example": "2757  Spring Haven Trail, Livingston, NJ"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "updateProfileById": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "role": {
+                                    "type": "string",
+                                    "enum": [
+                                        "applicant",
+                                        "admin",
+                                        "gradschool",
+                                        "department"
+                                    ]
+                                },
+                                "phone": {
+                                    "type": "string",
+                                    "example": 15351234567
+                                },
+                                "address": {
+                                    "type": "string",
+                                    "example": "2757  Spring Haven Trail, Livingston, NJ"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "Program": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "coordinator": {
+                                    "type": "string",
+                                    "example": "5edc34ea000ebe2355921045"
+                                },
+                                "name": {
+                                    "type": "string",
+                                    "example": "Embeded System Design"
+                                },
+                                "department": {
+                                    "type": "string",
+                                    "example": "Electical and Electronic Engineering"
+                                },
+                                "degree": {
+                                    "type": "string",
+                                    "example": "Master"
+                                },
+                                "description": {
+                                    "type": "string",
+                                    "example": "System Design & Management draws upon advanced engineering and management principles"
+                                },
+                                "announceDate": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2020-06-15"
+                                },
+                                "applicationDeadline": {
+                                    "type": "string",
+                                    "format": "date",
+                                    "example": "2020-06-25"
+                                },
+                                "alesRequirement": {
+                                    "type": "boolean",
+                                    "example": "true"
+                                },
+                                "sgkRequirement": {
+                                    "type": "boolean",
+                                    "example": "true"
+                                },
+                                "masterRequirement": {
+                                    "type": "boolean",
+                                    "example": "false"
+                                },
+                                "quota": {
+                                    "type": "number",
+                                    "example": "5"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "Notification": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "to": {
+                                    "type": "string",
+                                    "example": "example@gmail.com"
+                                },
+                                "title": {
+                                    "type": "string",
+                                    "example": "No Title"
+                                },
+                                "note": {
+                                    "type": "string",
+                                    "example": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tristique blandit diam."
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "Document": {
+                "content": {
+                    "multipart/form-data": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "title": {
+                                    "type": "string",
+                                    "example": "No Title"
+                                },
+                                "file": {
+                                    "type": "string",
+                                    "format": "binary"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "Interview": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "applicant": {
+                                    "type": "string",
+                                    "example": "5edc34ea000ebe2355921045"
+                                },
+                                "date": {
+                                    "type": "string",
+                                    "example": "2020-06-25"
+                                },
+                                "location": {
+                                    "type": "string",
+                                    "example": "Math Building, Main Amphi"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            }
+        },
+        "responses": {
+            "UnauthorizedError": {
+                "description": "Access token is missing or invalid"
+            },
+            "AllApplications": {
+                "description": "Regular response",
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "success": {
+                                    "type": "boolean",
+                                    "example": true
+                                },
+                                "message": {
+                                    "type": "string",
+                                    "example": "Login successful"
+                                },
+                                "payload": {
+                                    "type": "object",
+                                    "properties": {
+                                        "count": {
+                                            "type": "number",
+                                            "example": 5
+                                        },
+                                        "applications": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Application"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    },
+    "security": [
+        {
+            "bearerAuth": []
+        }
+    ]
+}
