@@ -54,31 +54,8 @@
                 "summary": "Regist a new applicant to the system",
                 "operationId": "registApplicant",
                 "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "account registered and new application file is created successfully"
-                                        },
-                                        "payload": {
-                                            "$ref": "#/components/schemas/Account"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Email already exists"
+                    "default": {
+                        "description": "successful operation"
                     }
                 },
                 "requestBody": {
@@ -97,32 +74,6 @@
                     "$ref": "#/components/requestBodies/StaffRegister"
                 },
                 "responses": {
-                    "201": {
-                        "description": "Created successfully",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "New staff registered successfully"
-                                        },
-                                        "payload": {
-                                            "$ref": "#/components/schemas/Account"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "409": {
-                        "description": "Email already exists"
-                    },
                     "default": {
                         "description": "successful operation"
                     }
@@ -139,43 +90,6 @@
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Login"
                 },
-                "responses": {
-                    "200": {
-                        "description": "Invalid username/password supplied",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "success": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Login successful"
-                                        },
-                                        "payload": {
-                                            "type": "object"
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Invalid username/password supplied"
-                    }
-                }
-            }
-        },
-        "/accounts/logout": {
-            "get": {
-                "tags": [
-                    "account"
-                ],
-                "summary": "Logs out current logged in account session",
-                "operationId": "logout",
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -208,9 +122,6 @@
                 "summary": "Update the password of current logged in account session",
                 "operationId": "getProfile",
                 "responses": {
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    },
                     "default": {
                         "description": "successful operation"
                     }
@@ -268,9 +179,6 @@
                     "$ref": "#/components/requestBodies/updateProfile"
                 },
                 "responses": {
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    },
                     "default": {
                         "description": "successful operation"
                     }
@@ -294,9 +202,6 @@
                 "summary": "Update the password of current logged in account session",
                 "operationId": "deleteAccountById",
                 "responses": {
-                    "401": {
-                        "$ref": "#/components/responses/UnauthorizedError"
-                    },
                     "default": {
                         "description": "successful operation"
                     }
@@ -311,9 +216,6 @@
                 "summary": "Get all applications in database",
                 "operationId": "getAllapplications",
                 "responses": {
-                    "200": {
-                        "$ref": "#/components/responses/AllApplications"
-                    },
                     "default": {
                         "description": "successful operation"
                     }

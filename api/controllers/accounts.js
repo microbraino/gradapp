@@ -97,7 +97,7 @@ exports.login = (req, res) => {
         if (!account) {
             return res.status(401).json({
                 success: false,
-                message: "account not found"
+                message: "login failed! invalid email or password"
             });
         }
         Account.comparePassword(password, account.password, (err, isMatch) => {
