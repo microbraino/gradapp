@@ -42,7 +42,7 @@ app.use(bodyParser.json());
 
 // Bring in the routes
 const swaggerDocument = require('./swagger.json');//swagger route is on index page
-app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use('/swagger', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 const accounts = require('./api/routes/accounts');
 app.use('/accounts', accounts);
