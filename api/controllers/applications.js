@@ -77,7 +77,7 @@ exports.getById = (req, res) => {
 };
 
 exports.getByApplicant = (req, res) => {
-    Application.findOne({ applicant: req.account._id })
+    Application.findById(req.account._id)
         .exec()
         .then(doc => {
             if (doc) {

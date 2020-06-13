@@ -6,7 +6,7 @@ const authenticate = require('../middlewares/authenticate');
 router.get("/all", authenticate(['admin', 'gradschool', 'department']), applicationController.getAll);
 
 // get application of authenticated applicant
-router.get("/", authenticate, applicationController.getByApplicant);
+router.get("/", authenticate(['applicant']), applicationController.getByApplicant);
 
 // get application by application Id
 router.get("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.getById);
@@ -30,6 +30,6 @@ router.get("/accept/:applicationId", authenticate(['gradschool']), applicationCo
 router.get("/results", authenticate(['gradschool']), applicationController.getResults);//accept assessment grade
 
 // delete an application. ussually used to ban an applicant
-router.delete("/:applicationId", authenticate, applicationController.delete);
+router.delete("/:applicationId", authenticate(['admin', 'gradschool']), applicationController.delete);
 
 module.exports = router;
