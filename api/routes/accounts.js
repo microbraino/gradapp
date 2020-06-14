@@ -24,6 +24,9 @@ router.patch('/profile', authenticate(['admin', 'applicant', 'gradschool', 'depa
 // get all registered accounts
 router.get('/all', authenticate(['admin']), accountController.getAll);
 
+// get all registered cordinators
+router.get('/cordinators', authenticate(['admin', 'gradschool']), accountController.getAllCoordinators);
+
 // delete an account by its id
 router.delete('/:accountId', authenticate(['admin']), accountController.delete);
 

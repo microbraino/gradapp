@@ -49,7 +49,7 @@
         "/accounts/register": {
             "post": {
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Regist a new applicant to the system",
                 "operationId": "registApplicant",
@@ -66,7 +66,7 @@
         "/accounts/staffregister": {
             "post": {
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Regist a new staff to the addmisson database",
                 "operationId": "registStaff",
@@ -83,7 +83,7 @@
         "/accounts/login": {
             "post": {
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Logs user into the system",
                 "operationId": "login",
@@ -100,7 +100,7 @@
         "/accounts/password": {
             "patch": {
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Update the password of current logged in account session",
                 "operationId": "updatePassword",
@@ -117,7 +117,7 @@
         "/accounts/profile": {
             "get": {
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Shows up account info of current logged in account session",
                 "operationId": "getProfile",
@@ -129,7 +129,7 @@
             },
             "patch": {
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Update account info of current logged in account session",
                 "operationId": "updateProfile",
@@ -146,10 +146,24 @@
         "/accounts/all": {
             "get": {
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "List all registered acounts",
                 "operationId": "getAllAccounts",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/accounts/coordinators": {
+            "get": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "List all registered cordinators",
+                "operationId": "getAllCoordinators",
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -171,7 +185,7 @@
                     }
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Update account info by Id",
                 "operationId": "getAccountById",
@@ -197,7 +211,7 @@
                     }
                 ],
                 "tags": [
-                    "account"
+                    "accounts"
                 ],
                 "summary": "Delete account by Id",
                 "operationId": "deleteAccountById",

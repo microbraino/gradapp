@@ -34,6 +34,10 @@ const AccountSchema = mongoose.Schema({
     role: {
         type: String,
         default: "applicant"
+    },
+    isVerified: {
+        type: Boolean,
+        default: false
     }
 });
 

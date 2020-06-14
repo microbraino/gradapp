@@ -57,7 +57,7 @@ exports.registStaff = (req, res) => {
     if (!config.roles.includes(req.body.role))
         return res.status(409).json({
             success: false,
-            message: "invalid role entry. valid roles " + config.roles,
+            message: "Invalid role entry. Valid roles: " + config.roles,
             error: "invalid role entry"
         });
     const newAccount = new Account({
@@ -217,6 +217,30 @@ exports.getAll = (req, res) => {
         });
 };
 
+exports.getAllCoordinators = (req, res) => {
+    Account.find({ role: "department" })
+        .exec()
+        .then(docs => {
+            const response = {
+                success: true,
+                message: null,
+                payload: {
+                    count: docs.length,
+                    accounts: docs
+                }
+            };
+            res.status(200).json(response);
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: 'An error occured while retrieving data',
+                error: err
+            });
+        });
+};
+
 exports.update = (req, res) => {
     const updatable = ["phone", "address"];
     const keys = Object.keys(req.body);
@@ -247,6 +271,12 @@ exports.update = (req, res) => {
 };
 
 exports.updateById = (req, res) => {
+    if (!config.roles.includes(req.body.role))
+        return res.status(409).json({
+            success: false,
+            message: "Invalid role entry. Valid roles: " + config.roles,
+            error: "invalid role entry"
+        });
     const id = req.params.accountId;
     const updatable = ["role", "phone", "address"];
     const keys = Object.keys(req.body);
