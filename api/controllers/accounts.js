@@ -12,7 +12,7 @@ exports.registApplicant = (req, res) => {
         phone: req.body.phone,
         address: req.body.address
     });
-    Account.createNew(newAccount, (err, newAccount) => {
+    Account.createNew(newAccount, (err, doc) => {
         if (err) {
             let message = "";
             if (err.errors.email) message += "Email already exists.";
@@ -24,9 +24,11 @@ exports.registApplicant = (req, res) => {
         } else {
             //create an application entity also
             const newApplication = new Application({
-                applicant: newAccount._id,
+                applicant: doc._id,
                 program: req.body.program
             });
+            console.log(doc);
+            console.log(newApplication);
             newApplication
                 .save()
                 .then(app => {
@@ -280,7 +282,7 @@ exports.updateById = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    const id = req.params.profileId;
+    const id = req.params.accountId;
     Account.deleteOne({ _id: id })
         .exec()
         .then(result => {
@@ -289,14 +291,13 @@ exports.delete = (req, res) => {
                     success: true,
                     message: 'Account deleted',
                     payload: {
-                        account: result
+                        account: id
                     }
                 })
             else
                 res.status(500).json({
                     success: false,
-                    message: 'No valid entry found for provided ID',
-                    error: err
+                    message: 'No valid entry found for provided ID'
                 });
         })
         .catch(err => {

@@ -1099,6 +1099,10 @@
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "program": {
+                                    "type": "string",
+                                    "example": "5ecc3ecdf495810004264814"
+                                },
                                 "name": {
                                     "type": "string",
                                     "example": "John"
