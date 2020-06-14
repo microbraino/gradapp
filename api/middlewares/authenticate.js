@@ -24,7 +24,7 @@ module.exports = function (roles) {
         } else {
             return res.status(403).json({
                 success: false,
-                message: "Authorization protected are. Please supply a valid Authorization header"
+                message: "Authorization protected area. Please supply a valid Authorization header"
             });
         }
 

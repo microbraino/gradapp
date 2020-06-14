@@ -119,7 +119,7 @@
                 "tags": [
                     "account"
                 ],
-                "summary": "Update the password of current logged in account session",
+                "summary": "Shows up account info of current logged in account session",
                 "operationId": "getProfile",
                 "responses": {
                     "default": {
@@ -131,7 +131,7 @@
                 "tags": [
                     "account"
                 ],
-                "summary": "Update the password of current logged in account session",
+                "summary": "Update account info of current logged in account session",
                 "operationId": "updateProfile",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/updateProfile"
@@ -173,10 +173,10 @@
                 "tags": [
                     "account"
                 ],
-                "summary": "Update the password of current logged in account session",
+                "summary": "Update account info by Id",
                 "operationId": "getAccountById",
                 "requestBody": {
-                    "$ref": "#/components/requestBodies/updateProfile"
+                    "$ref": "#/components/requestBodies/updateProfileById"
                 },
                 "responses": {
                     "default": {
@@ -199,7 +199,7 @@
                 "tags": [
                     "account"
                 ],
-                "summary": "Update the password of current logged in account session",
+                "summary": "Delete account by Id",
                 "operationId": "deleteAccountById",
                 "responses": {
                     "default": {

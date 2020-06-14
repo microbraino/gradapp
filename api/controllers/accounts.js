@@ -256,19 +256,19 @@ exports.updateById = (req, res) => {
     Account.updateOne({ _id: id }, { $set: updateOps })
         .exec()
         .then(result => {
-            //if (result.nModified > 0)
-            res.status(200).json({
-                success: true,
-                message: 'Account updated',
-                payload: {
-                    account: result
-                }
-            });
-            // else
-            //     res.status(404).json({
-            //         success: false,
-            //         message: "No valid entry found for provided ID"
-            //     });
+            if (result.nModified > 0)
+                res.status(200).json({
+                    success: true,
+                    message: 'Account updated',
+                    payload: {
+                        account: result
+                    }
+                });
+            else
+                res.status(404).json({
+                    success: false,
+                    message: "No valid entry found for provided ID:" + id
+                });
         })
         .catch(err => {
             res.status(500).json({
