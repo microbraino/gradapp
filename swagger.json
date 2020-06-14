@@ -148,7 +148,7 @@
                 "tags": [
                     "account"
                 ],
-                "summary": "Update the password of current logged in account session",
+                "summary": "List all registered acounts",
                 "operationId": "getAllAccounts",
                 "responses": {
                     "default": {
@@ -157,11 +157,11 @@
                 }
             }
         },
-        "/accounts/{profileId}": {
+        "/accounts/{accountId}": {
             "patch": {
                 "parameters": [
                     {
-                        "name": "profileId",
+                        "name": "accountId",
                         "in": "path",
                         "description": "ID of account that needs to be fetched",
                         "required": true,
@@ -187,7 +187,7 @@
             "delete": {
                 "parameters": [
                     {
-                        "name": "profileId",
+                        "name": "accountId",
                         "in": "path",
                         "description": "ID of account that needs to be fetched",
                         "required": true,

@@ -25,10 +25,10 @@ router.patch('/profile', authenticate(['admin', 'applicant', 'gradschool', 'depa
 router.get('/all', authenticate(['admin']), accountController.getAll);
 
 // delete an account by its id
-router.delete('/:profileId', authenticate(['admin']), accountController.delete);
+router.delete('/:accountId', authenticate(['admin']), accountController.delete);
 
 // update an account by its id
-router.patch('/:profileId', authenticate(['admin']), accountController.updateById);
+router.patch('/:accountId', authenticate(['admin']), accountController.updateById);
 
 
 
