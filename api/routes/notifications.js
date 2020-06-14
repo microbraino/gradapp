@@ -9,7 +9,7 @@ router.get("/", authenticate(['admin', 'applicant', 'gradschool', 'department'])
 
 router.post("/", authenticate(['admin', 'gradschool', 'department']), notificationController.send);
 
-router.patch("/seen/:notificationId", authenticate(['admin', 'applicant', 'gradschool', 'department']), notificationController.seen);
+router.get("/seen/:notificationId", authenticate(['admin', 'applicant', 'gradschool', 'department']), notificationController.seen);
 
 router.get("/:notificationId", authenticate(['admin', 'applicant', 'gradschool', 'department']), notificationController.getById);
 

@@ -197,7 +197,7 @@ exports.seen = (req, res) => {
                     .then(result => {
                         res.status(200).json({
                             success: true,
-                            message: "notification have seen",
+                            message: "notification marked as seen",
                             payload: {
                                 notification: result
                             }

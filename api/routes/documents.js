@@ -37,6 +37,12 @@ const upload = multer({
 
 const documentController = require('../controllers/documents');
 
+//get all documents of logged in applicant session
+router.get("/", authenticate(['applicant']), documentController.getForApplicant);
+
+// upload a document
+router.post("/", authenticate(['applicant']), upload.single('document'), documentController.upload);
+
 //get all documents in database
 router.get("/all", authenticate(['admin', 'gradschool', 'department']), documentController.getAll);
 
@@ -44,10 +50,7 @@ router.get("/all", authenticate(['admin', 'gradschool', 'department']), document
 //router.get("/", authenticate(['applicant']), documentController.getForApplicant);
 
 //get documents by its id
-router.get("/:documentId", authenticate(['admin', 'gradschool', 'department']), documentController.getById);
-
-// upload a document
-router.post("/upload/", authenticate(['applicant']), upload.single('document'), documentController.upload);
+router.get("/:documentId", authenticate(['admin', 'applicant', 'gradschool', 'department']), documentController.getById);
 
 // delete a document
 router.delete("/:documentId", authenticate(['applicant']), documentController.delete);

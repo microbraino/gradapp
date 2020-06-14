@@ -31,10 +31,10 @@ const AapplicationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'
     },
-    referenceLetters: {
-        type: [mongoose.Schema.Types.ObjectId],
+    referenceLetters: [{
+        type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'
-    },
+    }],
     statementOfPurpose: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'

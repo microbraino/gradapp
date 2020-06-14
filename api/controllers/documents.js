@@ -1,5 +1,61 @@
 const Document = require("../models/Document");
+const Application = require("../models/Application");
 const fs = require('fs');
+
+
+exports.getForApplicant = (req, res) => {
+    const id = req.account._id;
+    const role = req.account.role;
+    if (role === 'applicant')
+        Application.findOne({ applicant: id })
+            .populate('photo')
+            .populate('undergradTranscript')
+            .populate('alesResult')
+            .populate('englishExamResult')
+            .populate('referenceLetters')
+            .populate('statementOfPurpose')
+            .populate('passportCopy')
+            .populate('permissionLetter')
+            .populate('masterTranscript')
+            .exec()
+            .then(doc => {
+                if (doc) {
+                    res.status(200).json({
+                        success: true,
+                        message: null,
+                        payload: {
+                            documents: {
+                                photo: doc.photo,
+                                undergradTranscript: doc.undergradTranscript,
+                                alesResult: doc.alesResult,
+                                englishExamResult: doc.englishExamResult,
+                                referenceLetters: doc.referenceLetters,
+                                statementOfPurpose: doc.statementOfPurpose,
+                                passportCopy: doc.passportCopy,
+                                permissionLetter: doc.permissionLetter,
+                                masterTranscript: doc.masterTranscript
+                            }
+                        }
+                    });
+                } else {
+                    res
+                        .status(404)
+                        .json({
+                            success: false,
+                            message: "No valid entry found for provided ID"
+                        });
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({ error: err });
+            });
+    else
+        res.status(401).json({
+            success: false,
+            message: "only applicants have document file"
+        });
+};
 
 exports.getAll = (req, res) => {
     Document.find()

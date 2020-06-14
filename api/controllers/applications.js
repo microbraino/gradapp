@@ -25,16 +25,13 @@ exports.getAll = (req, res) => {
 };
 
 exports.getResults = (req, res) => {
-    Application.find({}, 'applicant program assessmentResult')
+    Application.find({ assessmentConfirmed: true }, 'applicant program assessmentResult')
         .exec()
         .then(docs => {
             const response = {
                 success: true,
-                message: 'All stored applications',
-                payload: {
-                    count: docs.length,
-                    applications: docs
-                }
+                message: 'Announced Results',
+                payload: docs
             };
             res.status(200).json(response);
         })
@@ -77,7 +74,7 @@ exports.getById = (req, res) => {
 };
 
 exports.getByApplicant = (req, res) => {
-    Application.findById(req.account._id)
+    Application.findOne({ applicant: req.account._id })
         .exec()
         .then(doc => {
             if (doc) {

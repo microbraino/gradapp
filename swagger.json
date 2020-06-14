@@ -68,6 +68,9 @@
                 "tags": [
                     "accounts"
                 ],
+                "x-roles": [
+                    "admin"
+                ],
                 "summary": "Regist a new staff to the addmisson database",
                 "operationId": "registStaff",
                 "requestBody": {
@@ -102,6 +105,12 @@
                 "tags": [
                     "accounts"
                 ],
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
+                ],
                 "summary": "Update the password of current logged in account session",
                 "operationId": "updatePassword",
                 "requestBody": {
@@ -119,6 +128,12 @@
                 "tags": [
                     "accounts"
                 ],
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
+                ],
                 "summary": "Shows up account info of current logged in account session",
                 "operationId": "getProfile",
                 "responses": {
@@ -130,6 +145,12 @@
             "patch": {
                 "tags": [
                     "accounts"
+                ],
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
                 ],
                 "summary": "Update account info of current logged in account session",
                 "operationId": "updateProfile",
@@ -148,6 +169,9 @@
                 "tags": [
                     "accounts"
                 ],
+                "x-roles": [
+                    "admin"
+                ],
                 "summary": "List all registered acounts",
                 "operationId": "getAllAccounts",
                 "responses": {
@@ -161,6 +185,10 @@
             "get": {
                 "tags": [
                     "accounts"
+                ],
+                "x-roles": [
+                    "admin",
+                    "gradschool"
                 ],
                 "summary": "List all registered cordinators",
                 "operationId": "getAllCoordinators",
@@ -186,6 +214,9 @@
                 ],
                 "tags": [
                     "accounts"
+                ],
+                "x-roles": [
+                    "admin"
                 ],
                 "summary": "Update account info by Id",
                 "operationId": "getAccountById",
@@ -213,6 +244,9 @@
                 "tags": [
                     "accounts"
                 ],
+                "x-roles": [
+                    "admin"
+                ],
                 "summary": "Delete account by Id",
                 "operationId": "deleteAccountById",
                 "responses": {
@@ -226,6 +260,11 @@
             "get": {
                 "tags": [
                     "applications"
+                ],
+                "x-roles": [
+                    "admin",
+                    "gradschool",
+                    "department"
                 ],
                 "summary": "Get all applications in database",
                 "operationId": "getAllapplications",
@@ -241,6 +280,9 @@
                 "tags": [
                     "applications"
                 ],
+                "x-roles": [
+                    "applicant"
+                ],
                 "summary": "get application of current logged in account session",
                 "operationId": "getApplication",
                 "responses": {
@@ -253,79 +295,11 @@
                 "tags": [
                     "applications"
                 ],
+                "x-roles": [
+                    "applicant"
+                ],
                 "summary": "Update some permited field of application of current logged in account session",
                 "operationId": "updateApplication",
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            }
-        },
-        "/applications/{applicationId}": {
-            "get": {
-                "parameters": [
-                    {
-                        "name": "applicationId",
-                        "in": "path",
-                        "description": "ID of application that needs to be fetched",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "tags": [
-                    "applications"
-                ],
-                "summary": "get application by application Id",
-                "operationId": "getApplicationById",
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            },
-            "put": {
-                "parameters": [
-                    {
-                        "name": "applicationId",
-                        "in": "path",
-                        "description": "ID of application that needs to be fetched",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "tags": [
-                    "applications"
-                ],
-                "summary": "Update application by application Id",
-                "operationId": "updateApplicationById",
-                "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
-                }
-            },
-            "delete": {
-                "parameters": [
-                    {
-                        "name": "applicationId",
-                        "in": "path",
-                        "description": "ID of application that needs to be fetched",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "tags": [
-                    "applications"
-                ],
-                "summary": "Update application by Id",
-                "operationId": "deleteApplicationById",
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -340,6 +314,34 @@
                 ],
                 "summary": "List all result of announced applications",
                 "operationId": "getApplicationResults",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
+        "/applications/confirm/{applicationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "x-roles": [
+                    "gradschool"
+                ],
+                "summary": "Confirm application by id",
+                "operationId": "confirmApplicationById",
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -363,7 +365,10 @@
                 "tags": [
                     "applications"
                 ],
-                "summary": "Update the password of current logged in account session",
+                "x-roles": [
+                    "department"
+                ],
+                "summary": "Assess application by id",
                 "operationId": "assessApplicationById",
                 "responses": {
                     "default": {
@@ -388,7 +393,10 @@
                 "tags": [
                     "applications"
                 ],
-                "summary": "Update the password of current logged in account session",
+                "x-roles": [
+                    "gradschool"
+                ],
+                "summary": "Accept assessment result of application by id",
                 "operationId": "acceptApplicationById",
                 "responses": {
                     "default": {
@@ -397,8 +405,36 @@
                 }
             }
         },
-        "/applications/confirm/{applicationId}": {
+        "/applications/{applicationId}": {
             "get": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "x-roles": [
+                    "admin",
+                    "gradschool",
+                    "department"
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "summary": "get application by Id",
+                "operationId": "getApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "put": {
                 "parameters": [
                     {
                         "name": "applicationId",
@@ -413,8 +449,40 @@
                 "tags": [
                     "applications"
                 ],
-                "summary": "Update the password of current logged in account session",
-                "operationId": "confirmApplicationById",
+                "x-roles": [
+                    "admin",
+                    "gradschool",
+                    "department"
+                ],
+                "summary": "Update application by Id",
+                "operationId": "updateApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
+            "delete": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "x-roles": [
+                    "admin",
+                    "gradschool"
+                ],
+                "summary": "Update application by Id",
+                "operationId": "deleteApplicationById",
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -426,6 +494,9 @@
             "post": {
                 "tags": [
                     "programs"
+                ],
+                "x-roles": [
+                    "gradschool"
                 ],
                 "summary": "Create new program",
                 "operationId": "addNewProgram",
@@ -469,6 +540,10 @@
                 "tags": [
                     "programs"
                 ],
+                "x-roles": [
+                    "admin",
+                    "gradschool"
+                ],
                 "summary": "Get Program by Id",
                 "operationId": "getProgramById",
                 "responses": {
@@ -491,6 +566,10 @@
                 ],
                 "tags": [
                     "programs"
+                ],
+                "x-roles": [
+                    "admin",
+                    "gradschool"
                 ],
                 "summary": "Update Program by Id",
                 "operationId": "updateProgramById",
@@ -518,6 +597,10 @@
                 "tags": [
                     "programs"
                 ],
+                "x-roles": [
+                    "admin",
+                    "gradschool"
+                ],
                 "summary": "Delete Program by Id",
                 "operationId": "deleteProgramById",
                 "responses": {
@@ -531,6 +614,9 @@
             "get": {
                 "tags": [
                     "notifications"
+                ],
+                "x-roles": [
+                    "admin"
                 ],
                 "summary": "List all Notifications in database",
                 "operationId": "getAllNotifications",
@@ -546,6 +632,12 @@
                 "tags": [
                     "notifications"
                 ],
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
+                ],
                 "summary": "List all Notifications of current logged in account session",
                 "operationId": "getNotifications",
                 "responses": {
@@ -557,6 +649,11 @@
             "post": {
                 "tags": [
                     "notifications"
+                ],
+                "x-roles": [
+                    "admin",
+                    "gradschool",
+                    "department"
                 ],
                 "summary": "Send Notification by logged in account session",
                 "operationId": "sendNotification",
@@ -586,6 +683,12 @@
                 "tags": [
                     "notifications"
                 ],
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
+                ],
                 "summary": "Get Notification by Id",
                 "operationId": "getNotificationById",
                 "responses": {
@@ -609,6 +712,12 @@
                 "tags": [
                     "notifications"
                 ],
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
+                ],
                 "summary": "Delete Notification by Id",
                 "operationId": "deleteNotificationById",
                 "responses": {
@@ -618,7 +727,7 @@
                 }
             }
         },
-        "/notificationId/see/{notificationId}": {
+        "/notificationId/seen/{notificationId}": {
             "get": {
                 "parameters": [
                     {
@@ -633,6 +742,12 @@
                 ],
                 "tags": [
                     "notifications"
+                ],
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
                 ],
                 "summary": "Mark Notification as seen",
                 "operationId": "seeNotification",
@@ -648,6 +763,11 @@
                 "tags": [
                     "documents"
                 ],
+                "x-roles": [
+                    "admin",
+                    "gradschool",
+                    "department"
+                ],
                 "summary": "List all Documents in database",
                 "operationId": "getAllDocuments",
                 "responses": {
@@ -658,12 +778,30 @@
             }
         },
         "/documents": {
+            "get": {
+                "tags": [
+                    "documents"
+                ],
+                "x-roles": [
+                    "applicant"
+                ],
+                "summary": "Get all documents of logged in account session",
+                "operationId": "getForApplicant",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
             "post": {
                 "tags": [
                     "documents"
                 ],
+                "x-roles": [
+                    "applicant"
+                ],
                 "summary": "Upload Document to add into the application file",
-                "operationId": "sendNotification",
+                "operationId": "uploadDocument",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/Document"
                 },
@@ -678,9 +816,9 @@
             "get": {
                 "parameters": [
                     {
-                        "name": "notificationId",
+                        "name": "documentId",
                         "in": "path",
-                        "description": "ID of Notification that needs to be fetched",
+                        "description": "ID of Document that needs to be fetched",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -690,8 +828,14 @@
                 "tags": [
                     "documents"
                 ],
-                "summary": "Get Notification by Id",
-                "operationId": "getNotificationById",
+                "x-roles": [
+                    "admin",
+                    "applicant",
+                    "gradschool",
+                    "department"
+                ],
+                "summary": "Get Document by Id",
+                "operationId": "getDocumentById",
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -701,9 +845,9 @@
             "delete": {
                 "parameters": [
                     {
-                        "name": "notificationId",
+                        "name": "documentId",
                         "in": "path",
-                        "description": "ID of Notification that needs to be fetched",
+                        "description": "ID of Document that needs to be fetched",
                         "required": true,
                         "schema": {
                             "type": "string"
@@ -712,6 +856,9 @@
                 ],
                 "tags": [
                     "documents"
+                ],
+                "x-roles": [
+                    "applicant"
                 ],
                 "summary": "Delete Notification by Id",
                 "operationId": "deleteNotificationById",
@@ -727,6 +874,9 @@
                 "tags": [
                     "interviews"
                 ],
+                "x-roles": [
+                    "applicant"
+                ],
                 "summary": "Get the Interview of current logged in account session",
                 "operationId": "getInterview",
                 "responses": {
@@ -738,6 +888,9 @@
             "post": {
                 "tags": [
                     "interviews"
+                ],
+                "x-roles": [
+                    "department"
                 ],
                 "summary": "Set an Interview",
                 "operationId": "setInterview",
@@ -755,6 +908,11 @@
             "get": {
                 "tags": [
                     "interviews"
+                ],
+                "x-roles": [
+                    "admin",
+                    "gradschool",
+                    "department"
                 ],
                 "summary": "Get all setted Interviews",
                 "operationId": "getAllInterviews",
@@ -795,6 +953,11 @@
                 "tags": [
                     "interviews"
                 ],
+                "x-roles": [
+                    "admin",
+                    "gradschool",
+                    "department"
+                ],
                 "summary": "Get Notification by Id",
                 "operationId": "getNotificationById",
                 "responses": {
@@ -817,6 +980,10 @@
                 ],
                 "tags": [
                     "interviews"
+                ],
+                "x-roles": [
+                    "admin",
+                    "department"
                 ],
                 "summary": "Update Interview by Id",
                 "operationId": "updateInterview",
@@ -843,6 +1010,10 @@
                 ],
                 "tags": [
                     "interviews"
+                ],
+                "x-roles": [
+                    "admin",
+                    "department"
                 ],
                 "summary": "Delete Interview by Id",
                 "operationId": "deleteNotificationById",
