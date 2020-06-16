@@ -313,6 +313,9 @@
                 ],
                 "summary": "get application of current logged in account session",
                 "operationId": "getApplication",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updateApplication"
+                },
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -1512,6 +1515,61 @@
                 },
                 "required": true
             },
+            "updateApplication": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "photo": {
+                                    "type": "string"
+                                },
+                                "undergradTranscript": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                },
+                                "alesResult": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                },
+                                "englishExamResult": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                },
+                                "referenceLetters": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                },
+                                "statementOfPurpose": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                },
+                                "nationality": {
+                                    "type": "string",
+                                    "example": "Turk"
+                                },
+                                "passportCopy": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                },
+                                "doesWork": {
+                                    "type": "boolean",
+                                    "example": "false"
+                                },
+                                "permissionLetter": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                },
+                                "masterTranscript": {
+                                    "type": "string",
+                                    "example": "example_document_id"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
             "Program": {
                 "content": {
                     "application/json": {
@@ -1620,6 +1678,10 @@
                         "schema": {
                             "type": "object",
                             "properties": {
+                                "applicant": {
+                                    "type": "string",
+                                    "example": "exampleID"
+                                },
                                 "date": {
                                     "type": "string",
                                     "example": "2020-06-25"
