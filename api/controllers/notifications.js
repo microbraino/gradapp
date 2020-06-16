@@ -128,7 +128,7 @@ exports.delete = (req, res) => {
                                 success: true,
                                 message: 'notification deleted from your side',
                                 payload: {
-                                    notification: result
+                                    result: result
                                 }
                             });
                         })
@@ -148,7 +148,7 @@ exports.delete = (req, res) => {
                                 success: true,
                                 message: 'notification deleted from your side',
                                 payload: {
-                                    notification: result
+                                    result: result
                                 }
                             });
                         })
@@ -198,7 +198,7 @@ exports.seen = (req, res) => {
                             success: true,
                             message: "notification marked as seen",
                             payload: {
-                                notification: result
+                                result: result
                             }
                         });
                     })

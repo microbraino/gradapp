@@ -256,7 +256,7 @@ exports.update = (req, res) => {
                 success: true,
                 message: 'Account updated',
                 payload: {
-                    account: result
+                    result: result
                 }
             });
         })
@@ -293,7 +293,7 @@ exports.updateById = (req, res) => {
                     success: true,
                     message: 'Account updated',
                     payload: {
-                        account: result
+                        result: result
                     }
                 });
             else

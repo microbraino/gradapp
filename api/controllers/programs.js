@@ -111,7 +111,7 @@ exports.update = (req, res) => {
                 success: true,
                 message: 'Program updated',
                 payload: {
-                    program: result
+                    result: result
                 }
             });
         })

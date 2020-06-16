@@ -53,8 +53,8 @@ exports.getForApplicant = (req, res) => {
 
 exports.getList = (req, res) => {
     Interview.find()
-        .populate('applicant', 'firstname')
-        .populate('applicant', 'lastname')
+        .populate('applicant', 'name')
+        .populate('applicant', 'surname')
         .exec()
         .then(docs => {
             const response = {
@@ -144,11 +144,20 @@ exports.apply = (req, res) => {
 
 
 exports.update = (req, res) => {
+    // const id = req.params.interviewId;
+    // const updateOps = {};
+    // for (const ops of req.body) {
+    //     updateOps[ops.propName] = ops.value;
+    // }
+
     const id = req.params.interviewId;
+    const updatable = ["date", "location"];
+    const keys = Object.keys(req.body);
     const updateOps = {};
-    for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
+    keys.forEach(key => {
+        if (updatable.includes(key))
+            updateOps[key] = req.body[key];
+    });
     Interview.update({ _id: id }, { $set: updateOps })
         .exec()
         .then(result => {
@@ -156,7 +165,7 @@ exports.update = (req, res) => {
                 success: true,
                 message: 'Interview updated',
                 payload: {
-                    interview: result
+                    result: result
                 }
             });
         })

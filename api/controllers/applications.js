@@ -210,7 +210,7 @@ exports.confirmApplication = (req, res) => {
                     success: true,
                     message: "confirm application successfull",
                     payload: {
-                        application: doc
+                        result: doc
                     }
                 });
             } else {
@@ -242,7 +242,7 @@ exports.assessApplication = (req, res) => {
                     success: true,
                     message: "assess application successfull",
                     payload: {
-                        application: doc
+                        result: doc
                     }
                 });
             } else {
@@ -274,7 +274,7 @@ exports.confirmAssessment = (req, res) => {
                     success: true,
                     message: "accept application successfull",
                     payload: {
-                        application: doc
+                        result: doc
                     }
                 });
             } else {
