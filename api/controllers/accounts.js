@@ -217,6 +217,38 @@ exports.getAll = (req, res) => {
         });
 };
 
+exports.getById = (req, res) => {
+    const id = req.params.accountId;
+    Account.findOne({ _id: id })
+        .exec()
+        .then(doc => {
+            if (doc) {
+                res.status(200).json({
+                    success: true,
+                    message: null,
+                    payload: {
+                        account: doc
+                    }
+                });
+            } else {
+                res
+                    .status(404)
+                    .json({
+                        success: false,
+                        message: "No valid entry found for provided ID"
+                    });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: 'An error occured while retrieving data',
+                error: err
+            });
+        });
+};
+
 exports.getAllCoordinators = (req, res) => {
     Account.find({ role: "department" })
         .exec()

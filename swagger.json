@@ -200,6 +200,34 @@
             }
         },
         "/accounts/{accountId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "accountId",
+                        "in": "path",
+                        "description": "ID of account that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "accounts"
+                ],
+                "x-roles": [
+                    "admin",
+                    "department",
+                    "gradschool"
+                ],
+                "summary": "Get account info by Id",
+                "operationId": "getAccountById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            },
             "patch": {
                 "parameters": [
                     {
@@ -219,7 +247,7 @@
                     "admin"
                 ],
                 "summary": "Update account info by Id",
-                "operationId": "getAccountById",
+                "operationId": "updateAccountById",
                 "requestBody": {
                     "$ref": "#/components/requestBodies/updateProfileById"
                 },
