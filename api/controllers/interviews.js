@@ -143,12 +143,6 @@ exports.apply = (req, res) => {
 
 
 exports.update = (req, res) => {
-    // const id = req.params.interviewId;
-    // const updateOps = {};
-    // for (const ops of req.body) {
-    //     updateOps[ops.propName] = ops.value;
-    // }
-
     const id = req.params.interviewId;
     const updatable = ["date", "location"];
     const keys = Object.keys(req.body);

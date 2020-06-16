@@ -3,6 +3,7 @@ const Application = require("../models/Application");
 exports.getAll = (req, res) => {
     Application.find()
         .populate('applicant')
+        .populate('program')
         .exec()
         .then(docs => {
             const response = {
@@ -102,16 +103,26 @@ exports.getByApplicant = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    const condition = { applicant: req.account._id };
+    const updatable = ["photo",
+        "undergradTranscript",
+        "alesResult",
+        "englishExamResult",
+        "referenceLetters",
+        "statementOfPurpose",
+        "nationality",
+        "passportCopy",
+        "doesWork",
+        "permissionLetter",
+        "masterTranscript",];
+    const keys = Object.keys(req.body);
     const updateOps = {};
-    for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    };
-
-    const update = { $set: updateOps };
-
-    const option = { new: true, runValidators: true };
-    Application.findOneAndUpdate(condition, update, option)
+    keys.forEach(key => {
+        if (updatable.includes(key))
+            updateOps[key] = req.body[key];
+    });
+    const condition = { applicant: req.account._id };
+    const options = { new: true, runValidators: true };
+    Application.findOneAndUpdate(condition, updateOps, options)
         // .populate('undergradTranscript', 'originalname')
         // .populate('alesResult', 'originalname')
         // .populate('englishExamResult', 'originalname')
