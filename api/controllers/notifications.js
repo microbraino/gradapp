@@ -140,8 +140,7 @@ exports.delete = (req, res) => {
                                 error: err
                             });
                         });
-                };
-                if (req.account.email === doc.to && doc.visibleFrom == true) {// set unvisible by receiver
+                } else if (req.account.email === doc.to && doc.visibleFrom == true) {// set unvisible by receiver
                     Notification.updateOne({ _id: id }, { visibleTo: false })///// revised
                         .exec()
                         .then(result => {
