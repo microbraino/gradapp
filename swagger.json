@@ -667,7 +667,7 @@
                 }
             }
         },
-        "/notificationId/{notificationId}": {
+        "/notifications/{notificationId}": {
             "get": {
                 "parameters": [
                     {
@@ -727,7 +727,7 @@
                 }
             }
         },
-        "/notificationId/seen/{notificationId}": {
+        "/notifications/seen/{notificationId}": {
             "get": {
                 "parameters": [
                     {

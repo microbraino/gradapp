@@ -10,7 +10,7 @@ router.get("/all", programController.getAll);
 router.post("/", authenticate(['gradschool']), programController.addNew);
 
 // get program by its id
-router.get("/:programId", authenticate(['admin', 'gradschool']), programController.getById);
+router.get("/:programId", authenticate(['admin', 'applicant', 'gradschool', 'department']), programController.getById);
 
 // update program by its id
 router.put("/:programId", authenticate(['admin', 'gradschool']), programController.update);
