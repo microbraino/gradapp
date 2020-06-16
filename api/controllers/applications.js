@@ -200,6 +200,38 @@ exports.updateById = (req, res) => {
         });
 };
 
+exports.checkApplication = (req, res) => {
+    const id = req.params.applicationId;
+    Application.updateOne({ _id: id }, { isChecked: true })
+        .exec()
+        .then(doc => {
+            if (doc) {
+                res.status(200).json({
+                    success: true,
+                    message: "check application successfull",
+                    payload: {
+                        result: doc
+                    }
+                });
+            } else {
+                res
+                    .status(404)
+                    .json({
+                        success: false,
+                        message: "No valid application found for id"
+                    });
+            }
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: "update application fail",
+                error: err
+            });
+        });
+};
+
 exports.confirmApplication = (req, res) => {
     const id = req.params.applicationId;
     Application.updateOne({ _id: id }, { applicationConfirmed: true })

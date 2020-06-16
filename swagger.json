@@ -321,6 +321,34 @@
                 }
             }
         },
+        "/applications/check/{applicationId}": {
+            "get": {
+                "parameters": [
+                    {
+                        "name": "applicationId",
+                        "in": "path",
+                        "description": "ID of application that needs to be fetched",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "tags": [
+                    "applications"
+                ],
+                "x-roles": [
+                    "gradschool"
+                ],
+                "summary": "Check application by id",
+                "operationId": "checkApplicationById",
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
         "/applications/confirm/{applicationId}": {
             "get": {
                 "parameters": [
@@ -1123,6 +1151,9 @@
                     "masterTranscript": {
                         "type": "string"
                     },
+                    "isChecked": {
+                        "type": "boolean"
+                    },
                     "applicationConfirmed": {
                         "type": "boolean"
                     },
@@ -1561,10 +1592,6 @@
                         "schema": {
                             "type": "object",
                             "properties": {
-                                "applicant": {
-                                    "type": "string",
-                                    "example": "5edc34ea000ebe2355921045"
-                                },
                                 "date": {
                                     "type": "string",
                                     "example": "2020-06-25"

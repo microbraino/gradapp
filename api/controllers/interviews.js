@@ -52,7 +52,7 @@ exports.getForApplicant = (req, res) => {
 };
 
 exports.getList = (req, res) => {
-    Interview.find()
+    Interview.find({}, 'applicant date location')
         .populate('applicant', 'name surname -_id')
         .exec()
         .then(docs => {

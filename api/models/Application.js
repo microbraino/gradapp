@@ -59,7 +59,7 @@ const AapplicationSchema = mongoose.Schema({
     },
     isChecked: {   // Inform if document reviewed or not
         type: Boolean,
-        default: true
+        default: false
     },
     applicationConfirmed: {   // Confirm if there is no missing documents and all requirements are satisfied
         type: Boolean

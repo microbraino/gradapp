@@ -14,6 +14,9 @@ router.get("/all", authenticate(['admin', 'gradschool', 'department']), applicat
 // get all applications results that accepted by gradschool
 router.get("/results", applicationController.getResults);
 
+// mark application file as checked
+router.get("/check/:applicationId", authenticate(['gradschool']), applicationController.checkApplication);
+
 // confirm application belongs to a spesific id
 router.get("confirm/:applicationId", authenticate(['gradschool']), applicationController.confirmApplication);
 
