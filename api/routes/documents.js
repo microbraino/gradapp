@@ -44,7 +44,7 @@ router.get("/", authenticate(['applicant']), documentController.getForApplicant)
 router.post("/", authenticate(['applicant']), upload.single('document'), documentController.upload);
 
 //get all documents in database
-router.get("/all", authenticate(['admin', 'gradschool', 'department']), documentController.getAll);
+router.get("/all", authenticate(['admin', 'gradschool', 'gradschool', 'department']), documentController.getAll);
 
 //get documents of authenticated applicant
 //router.get("/", authenticate(['applicant']), documentController.getForApplicant);
