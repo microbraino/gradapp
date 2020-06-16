@@ -53,8 +53,7 @@ exports.getForApplicant = (req, res) => {
 
 exports.getList = (req, res) => {
     Interview.find()
-        .populate('applicant', 'name')
-        .populate('applicant', 'surname')
+        .populate('applicant', 'name surname -_id')
         .exec()
         .then(docs => {
             const response = {
