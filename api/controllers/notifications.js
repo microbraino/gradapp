@@ -160,11 +160,11 @@ exports.delete = (req, res) => {
                                 error: err
                             });
                         });
-                };
-                res.status(500).json({
-                    success: false,
-                    message: 'An error occured while deleting notification'
-                });
+                } else
+                    res.status(500).json({
+                        success: false,
+                        message: 'An error occured while deleting notification'
+                    });
             } else {
                 res
                     .status(404)
