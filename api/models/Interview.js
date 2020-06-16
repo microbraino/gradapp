@@ -13,11 +13,11 @@ const InterviewSchema = mongoose.Schema({
     },
     date: {
         type: Date,
-        default: false
+        required: true
     },
     location: {
         type: Boolean,
-        default: false
+        required: true
     }
 });
 
