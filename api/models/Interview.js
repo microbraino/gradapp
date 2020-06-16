@@ -16,7 +16,7 @@ const InterviewSchema = mongoose.Schema({
         required: true
     },
     location: {
-        type: Boolean,
+        type: String,
         required: true
     }
 });
