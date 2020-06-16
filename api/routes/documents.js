@@ -53,6 +53,6 @@ router.get("/all", authenticate(['admin', 'gradschool', 'gradschool', 'departmen
 router.get("/:documentId", authenticate(['admin', 'applicant', 'gradschool', 'department']), documentController.getById);
 
 // delete a document
-router.delete("/:documentId", authenticate(['applicant']), documentController.delete);
+router.delete("/:documentId", authenticate(['applicant', 'gradschool']), documentController.delete);
 
 module.exports = router;
