@@ -2,6 +2,7 @@ const Application = require("../models/Application");
 
 exports.getAll = (req, res) => {
     Application.find()
+        .populate('applicant')
         .exec()
         .then(docs => {
             const response = {
