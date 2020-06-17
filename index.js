@@ -36,6 +36,7 @@ app.use(cors());
 
 // Set the static folder
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'documents')));
 
 // BodyParser Middleware
 app.use(bodyParser.json());

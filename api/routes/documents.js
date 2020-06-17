@@ -10,11 +10,8 @@ const storage = multer.diskStorage({
         cb(null, config.documentPath);
     },
     filename: function (req, file, cb) {// doctype_userid.fileformat    ex: transcript_as4e8e48598sd984e.pdf
-        const token = req.headers.authorization.split(" ")[1];
-        const decoded = jwt.verify(token, config.secret);
-        const jwt_payload = decoded.data;
         const doc_type = req.body.title.replace(/\s/g, '').toLowerCase();
-        const name = doc_type + '_' + jwt_payload._id + '.' + file.mimetype.split('/')[1];
+        const name = doc_type + '_' + req.account._id + '.' + file.mimetype.split('/')[1];
         cb(null, name);
     }
 });
