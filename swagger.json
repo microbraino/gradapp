@@ -409,7 +409,7 @@
             }
         },
         "/applications/assess/{applicationId}": {
-            "get": {
+            "post": {
                 "parameters": [
                     {
                         "name": "applicationId",
@@ -429,6 +429,9 @@
                 ],
                 "summary": "Assess application by id",
                 "operationId": "assessApplicationById",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/assessApp"
+                },
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -1508,6 +1511,22 @@
                                 "address": {
                                     "type": "string",
                                     "example": "2757  Spring Haven Trail, Livingston, NJ"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "assessApp": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "assessmentResult": {
+                                    "type": "number",
+                                    "example": "95"
                                 }
                             }
                         }

@@ -18,10 +18,10 @@ router.get("/results", applicationController.getResults);
 router.get("/check/:applicationId", authenticate(['gradschool']), applicationController.checkApplication);
 
 // confirm application belongs to a spesific id
-router.get("confirm/:applicationId", authenticate(['gradschool']), applicationController.confirmApplication);
+router.get("/confirm/:applicationId", authenticate(['gradschool']), applicationController.confirmApplication);
 
 // assess the application after interviev is done.
-router.get("/assess/:applicationId", authenticate(['department']), applicationController.assessApplication);
+router.post("/assess/:applicationId", authenticate(['department']), applicationController.assessApplication);
 
 // accept assessment result
 router.get("/accept/:applicationId", authenticate(['gradschool']), applicationController.confirmAssessment);

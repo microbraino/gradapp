@@ -316,7 +316,7 @@ exports.confirmAssessment = (req, res) => {
             if (doc) {
                 res.status(200).json({
                     success: true,
-                    message: "accept application successfull",
+                    message: "accept assessment successfull",
                     payload: {
                         result: doc
                     }
