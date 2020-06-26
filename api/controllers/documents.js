@@ -83,7 +83,7 @@ exports.getAll = (req, res) => {
 
 
 exports.upload = (req, res) => {
-    const newDocument = new Document({
+    const docObject = {
         title: req.body.title,
         originalname: req.file.originalname,
         mimetype: req.file.mimetype,
@@ -93,31 +93,81 @@ exports.upload = (req, res) => {
         source: req.file.path,
         editDate: Date.now(),
         isComplete: true
-    });
-    newDocument
-        .save()
-        .then(result => {
-            console.log(result);
-            res.status(201).json({
-                success: true,
-                message: "uploaded file successfully",
-                payload: {
-                    document: result
-                }
-            });
+    };
+
+    Document.findOne({ storename: docObject.storename })
+        .exec()
+        .then(doc => {
+            if (doc) {// if document already exists
+                Document.updateOne({ storename: docObject.storename }, docObject)
+                    .exec()
+                    .then(doc => {
+                        if (doc) {
+                            res.status(200).json({
+                                success: true,
+                                message: "document overwrited on existing one",
+                                payload: {
+                                    result: doc
+                                }
+                            });
+                        } else {
+                            res
+                                .status(404)
+                                .json({
+                                    success: false,
+                                    message: "No valid document found"
+                                });
+                        }
+                    })
+                    .catch(err => {
+                        fs.unlink(req.file.destination + '/' + req.file.filename, (err) => {
+                            if (err) throw err;
+                            console.log('successfully deleted /tmp/hello');
+                        });//remove uploaded file
+                        console.log(err);
+                        res.status(500).json({
+                            success: false,
+                            message: "update application fail",
+                            error: err
+                        });
+                    });
+            } else {
+                const newDocument = new Document(docObject);
+                newDocument
+                    .save()
+                    .then(result => {
+                        console.log(result);
+                        res.status(201).json({
+                            success: true,
+                            message: "uploaded file successfully",
+                            payload: {
+                                document: result
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        fs.unlink(req.file.destination + '/' + req.file.filename, (err) => {
+                            if (err) throw err;
+                            console.log('successfully deleted');
+                        });//remove uploaded file
+                        console.log(err);
+                        res.status(500).json({
+                            success: false,
+                            message: null,
+                            error: err
+                        });
+                    });
+            }
         })
         .catch(err => {
             fs.unlink(req.file.destination + '/' + req.file.filename, (err) => {
                 if (err) throw err;
-                console.log('successfully deleted /tmp/hello');
+                console.log('successfully deleted');
             });//remove uploaded file
             console.log(err);
-            res.status(500).json({
-                success: false,
-                message: null,
-                error: err
-            });
+            res.status(500).json({ error: err });
         });
+
 };
 
 exports.getById = (req, res) => {

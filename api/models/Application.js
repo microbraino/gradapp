@@ -57,18 +57,9 @@ const AapplicationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'
     },
-    isChecked: {   // Inform if document reviewed or not
-        type: Boolean,
-        default: false
-    },
-    applicationConfirmed: {   // Confirm if there is no missing documents and all requirements are satisfied
-        type: Boolean
-    },
-    assessmentResult: {    // Assessment results is gived by the department`s comitee after interview
-        type: Number
-    },
-    assessmentConfirmed: {   // assesment is confirmed by gradschool
-        type: Boolean
+    progress: {   // Inform if document reviewed or not
+        type: String,
+        default: 'created'
     }
 });
 

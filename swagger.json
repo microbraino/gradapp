@@ -313,9 +313,6 @@
                 ],
                 "summary": "get application of current logged in account session",
                 "operationId": "getApplication",
-                "requestBody": {
-                    "$ref": "#/components/requestBodies/updateApplication"
-                },
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -331,6 +328,9 @@
                 ],
                 "summary": "Update some permited field of application of current logged in account session",
                 "operationId": "updateApplication",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/updateApplication"
+                },
                 "responses": {
                     "default": {
                         "description": "successful operation"
@@ -1582,6 +1582,34 @@
                                 "masterTranscript": {
                                     "type": "string",
                                     "example": "example_document_id"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "updateApplicationById": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "program": {
+                                    "type": "string",
+                                    "example": "program_id"
+                                },
+                                "nationality": {
+                                    "type": "string",
+                                    "example": "Turkish"
+                                },
+                                "applicationConfirmed": {
+                                    "type": "boolean",
+                                    "example": "true"
+                                },
+                                "assessmentConfirmed": {
+                                    "type": "boolean",
+                                    "example": "true"
                                 }
                             }
                         }
