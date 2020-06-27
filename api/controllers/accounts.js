@@ -6,11 +6,11 @@ const mailer = require("../middlewares/mailler");//change this
 
 exports.registApplicant = (req, res) => {
     var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
-    const message = "The password must contain at least 1 lowercase alphabetical character\n\
-        The password must contain at least 1 uppercase alphabetical character\n\
-        The password must contain at least 1 numeric character\n\
-        The password must contain at least one special character\n\
-        The password must be eight characters or longer\n"
+    const message = "The password must contain at least 1 lowercase alphabetical character\n" +
+        "The password must contain at least 1 uppercase alphabetical character\n" +
+        "The password must contain at least 1 numeric character\n" +
+        "The password must contain at least one special character\n" +
+        "The password must be eight characters or longer\n"
     //req.body.password.isMatch
     if (!strongRegex.test(req.body.password)) {//if password is not enaugh strong
         return res.status(409).json({
