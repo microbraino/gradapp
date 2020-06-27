@@ -100,6 +100,23 @@
                 }
             }
         },
+        "/accounts/forgetpass": {
+            "post": {
+                "tags": [
+                    "accounts"
+                ],
+                "summary": "Reset forgoten password with a temporary password",
+                "operationId": "login",
+                "requestBody": {
+                    "$ref": "#/components/requestBodies/Forget"
+                },
+                "responses": {
+                    "default": {
+                        "description": "successful operation"
+                    }
+                }
+            }
+        },
         "/accounts/resend": {
             "post": {
                 "tags": [
@@ -1436,6 +1453,22 @@
                                 "password": {
                                     "type": "string",
                                     "example": "ab123"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": true
+            },
+            "Forget": {
+                "content": {
+                    "application/json": {
+                        "schema": {
+                            "type": "object",
+                            "properties": {
+                                "email": {
+                                    "type": "string",
+                                    "example": "example@gmail.com"
                                 }
                             }
                         }

@@ -5,7 +5,7 @@ const config = require('../config/cors');
 const mailer = require("../middlewares/mailler");//change this
 
 exports.registApplicant = (req, res) => {
-    var strongRegex = new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})");
+    var strongRegex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$");
     const message = "The password must contain at least 1 lowercase alphabetical character\n" +
         "The password must contain at least 1 uppercase alphabetical character\n" +
         "The password must contain at least 1 numeric character\n" +
@@ -120,9 +120,6 @@ exports.resendVerification = (req, res) => {
             }
         });
     });
-
-
-
 };
 
 exports.registStaff = (req, res) => {
@@ -186,9 +183,9 @@ exports.login = (req, res) => {
             });
         }
         if (!account.isVerified) {
-            return res.status(401).json({
+            return res.status(403).json({
                 success: false,
-                message: "unactivated account. please activate your account by clicking verification code on your email"
+                message: "Unactivated account! Please activate your account on your email"
             });
         }
         Account.comparePassword(password, account.password, (err, isMatch) => {
@@ -246,6 +243,50 @@ exports.updatePass = (req, res) => {
             });
         })
     });
+};
+
+exports.forgetPass = (req, res) => {
+    const email = req.body.email;
+    Account.getByEmail(email, (err, account) => {
+        if (err) throw err;
+        if (!account) {
+            return res.status(401).json({
+                success: false,
+                message: "Email doesnt exist"
+            });
+        }
+        const tempPassword = "Temp@Pass" + account._id;
+        tempPassword.substring(1, 15);
+        Account.updatePassword(tempPassword, account, (err, result) => {
+            if (err) throw err;
+            if (result.nModified == 0)
+                res.status(500).json({
+                    success: false,
+                    message: 'An error occured during update password',
+                    error: err
+                });
+            //send verification code
+            const mailBody = require('../middlewares/forgetPasswordMailBody');
+            const message = mailBody(account, tempPassword);
+            const mail = {
+                from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                to: account.email, // list of receivers
+                subject: "Your IZTECH Gradapp password has been reset", // Subject line
+                text: "", // plain text body
+                html: message, // html body
+            };
+            mailer.send(mail);
+            return res.status(200).json({
+                success: true,
+                message: "Temporary password setted. Go to your account mail for detail",
+                payload: {
+                    result: result
+                }
+            });
+        })
+
+    });
+
 };
 
 exports.profile = (req, res) => {
@@ -449,9 +490,6 @@ exports.verify = (req, res) => {
                 error: err
             });
         });
-
-
-
 };
 exports.delete = (req, res) => {
     const id = req.params.accountId;

@@ -27,12 +27,14 @@ exports.getAll = (req, res) => {
 };
 
 exports.getResults = (req, res) => {
-    Application.find({ assessmentConfirmed: true }, 'applicant program assessmentResult')
+    Application.find({ status: "announced" }, 'applicant program assessmentResult')
+        .populate('applicant', 'name surname')
+        .populate('program', 'name department degree')
         .exec()
         .then(docs => {
             const response = {
                 success: true,
-                message: 'Announced Results',
+                message: 'Announced Admissions',
                 payload: docs
             };
             res.status(200).json(response);

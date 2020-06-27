@@ -8,6 +8,9 @@ router.get("/", authenticate(['applicant']), applicationController.getByApplican
 // update some permited field of application for applicant
 router.put("/", authenticate(['applicant']), applicationController.update);
 
+// update application status of current logged account
+router.patch("/", authenticate(['applicant']), applicationController.setStatus);
+
 // get all applications in database
 router.get("/all", authenticate(['admin', 'gradschool', 'department']), applicationController.getAll);
 
@@ -20,11 +23,8 @@ router.post("/assess/:applicationId", authenticate(['department']), applicationC
 // get application by application Id
 router.get("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.getById);
 
-// update application status of current logged account
-router.patch("/:applicationId", authenticate(['applicant']), applicationController.setStatus);///role should be changed later
-
 // update application status by its id
-router.patch("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.setStatusById);///role should be changed later
+router.patch("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.setStatusById);
 
 // delete an application. ussually used to ban an applicant
 router.delete("/:applicationId", authenticate(['admin', 'gradschool']), applicationController.delete);

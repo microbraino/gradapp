@@ -15,6 +15,9 @@ router.post('/staffregister', authenticate(['admin']), accountController.registS
 // login for all other account roles
 router.post('/login', accountController.login);
 
+// reseet password
+router.post('/forgetpass', accountController.forgetPass);
+
 // update password
 router.patch('/password', authenticate(['admin', 'applicant', 'gradschool', 'department']), accountController.updatePass);
 
