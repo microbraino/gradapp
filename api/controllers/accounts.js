@@ -52,12 +52,6 @@ exports.registApplicant = (req, res) => {
 
             //send verification code
             try {
-                const token = jwt.sign({// create a token
-                    type: "account",
-                    data: doc
-                }, config.secret, {
-                    expiresIn: config.tokenTTL
-                });
                 let transporter = nodemailer.createTransport({
                     host: "smtp.mailtrap.io",
                     port: 2525,
@@ -70,7 +64,7 @@ exports.registApplicant = (req, res) => {
                 // const message = "Hi " + Abdulkadir + ",\n" +
                 //     "To complete your sign up, please verify your email:\n";
                 const mailBody = require('../middlewares/verificationMailBody');
-                const message = mailBody(newAccount, token);
+                const message = mailBody(newAccount, doc._id);
                 let testmail = {
                     from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
                     to: newAccount.email, // list of receivers
@@ -394,28 +388,21 @@ exports.updateById = (req, res) => {
 };
 
 exports.verify = (req, res) => {
-    const token = req.params.verificationCode;
-    jwt.verify(token, config.secret, (err, decoded) => {
-        if (err) return res.status(401).json({
-            success: false,
-            message: "Access token is missing or invalid",
-            error: err
-        });
-        const account = decoded.data;// if token is valid
-        Account.updateOne({ _id: account._id }, { isVerified: true })//verify account
-            .exec()
-            .then(result => {
-                res.status(200).redirect('/public/verified.html');
-            })
-            .catch(err => {
-                console.log(err);
-                res.status(500).json({
-                    success: false,
-                    message: 'An error occured while retrieving data',
-                    error: err
-                });
+    const id = req.params.verificationCode;
+    Account.updateOne({ _id: id }, { isVerified: true })//verify account
+        .exec()
+        .then(result => {
+            res.status(200).redirect('/public/verified.html');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json({
+                success: false,
+                message: 'An error occured while retrieving data',
+                error: err
             });
-    });
+        });
+
 
 
 };
