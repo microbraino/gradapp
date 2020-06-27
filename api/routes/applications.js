@@ -14,23 +14,17 @@ router.get("/all", authenticate(['admin', 'gradschool', 'department']), applicat
 // get all applications results that accepted by gradschool
 router.get("/results", applicationController.getResults);
 
-// mark application file as checked
-router.get("/check/:applicationId", authenticate(['gradschool']), applicationController.checkApplication);
-
-// confirm application belongs to a spesific id
-router.get("/confirm/:applicationId", authenticate(['gradschool']), applicationController.confirmApplication);
-
 // assess the application after interviev is done.
 router.post("/assess/:applicationId", authenticate(['department']), applicationController.assessApplication);
-
-// accept assessment result
-router.get("/accept/:applicationId", authenticate(['gradschool']), applicationController.confirmAssessment);
 
 // get application by application Id
 router.get("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.getById);
 
-// update some permited field of application by its id
-router.put("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.updateById);
+// update application status of current logged account
+router.patch("/:applicationId", authenticate(['applicant']), applicationController.setStatus);///role should be changed later
+
+// update application status by its id
+router.patch("/:applicationId", authenticate(['admin', 'gradschool', 'department']), applicationController.setStatusById);///role should be changed later
 
 // delete an application. ussually used to ban an applicant
 router.delete("/:applicationId", authenticate(['admin', 'gradschool']), applicationController.delete);

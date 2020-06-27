@@ -62,6 +62,17 @@ exports.send = (req, res) => {
         .save()
         .then(result => {
             console.log(result);
+            //send to email
+            const mailBody = require('../middlewares/notificationMailBody.js');
+            const message = mailBody(result);
+            const mail = {
+                from: '"IZTECH GRADAPP" ' + req.account.email, // sender address
+                to: result.email, // list of receivers
+                subject: result.title, // Subject line
+                text: "", // plain text body
+                html: message, // html body
+            };
+            mailer.send(mail);
             res.status(201).json({
                 success: true,
                 message: "create notification successfull",

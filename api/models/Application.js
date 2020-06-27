@@ -57,7 +57,10 @@ const AapplicationSchema = mongoose.Schema({
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Document'
     },
-    progress: {   // Inform if document reviewed or not
+    assessmentResult: {   // Inform if document reviewed or not
+        type: Number
+    },
+    status: {   // Inform if document reviewed or not
         type: String,
         default: 'created'
     }

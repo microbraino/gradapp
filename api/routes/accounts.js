@@ -6,6 +6,9 @@ const authenticate = require('../middlewares/authenticate');
 // regist an applicant
 router.post('/register', accountController.registApplicant);
 
+// resend verification code to account email
+router.post('/resend', accountController.resendVerification);
+
 // regist an staff in desired role
 router.post('/staffregister', authenticate(['admin']), accountController.registStaff);
 

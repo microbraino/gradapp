@@ -124,12 +124,12 @@ exports.set = (req, res) => {
                         console.log(result);
 
                         //send verification code
-                        const mailBody = require('../middlewares/notificationMailBody.js');
+                        const mailBody = require('../middlewares/interviewMailBody.js');
                         const message = mailBody(result, doc);
                         const mail = {
                             from: '"IZTECH GRADAPP" ' + req.account.email, // sender address
                             to: doc.email, // list of receivers
-                            subject: "Verify Your Email on IZTECH Gradapp", // Subject line
+                            subject: "You have an interview appointment", // Subject line
                             text: "", // plain text body
                             html: message, // html body
                         };

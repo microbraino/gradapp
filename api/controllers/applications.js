@@ -160,46 +160,36 @@ exports.update = (req, res) => {
         });
 };
 
-exports.updateById = (req, res) => {
-    const id = req.params.applicationId;
-    const condition = { _id: id };
-
-    const updateOps = {};
-    const updatable = ["confirmApplication", "interviewDate", "assessmentResult", "confirmAssessment"];
-    for (const ops of req.body) {
-        if (ops.propName in updatable)
-            updateOps[ops.propName] = ops.value;
-    }
-
-    const update = { $set: updateOps };
-
-    const option = { new: true, runValidators: true };
-    Application.findOneAndUpdate(condition, update, option)
-        // .populate('undergradTranscript', 'originalname')
-        // .populate('alesResult', 'originalname')
-        // .populate('englishExamResult', 'originalname')
-        // .populate('referenceLetters', 'originalname')
-        // .populate('statementOfPurpose', 'originalname')
-        // .populate('passportCopy', 'originalname')
-        // .populate('permissionLetter', 'originalname')
-        // .populate('masterTranscript', 'originalname')
+exports.setStatus = (req, res) => {
+    const id = req.account._id;
+    const enteredStatus = req.body.status;
+    const statusList = [
+        'created',
+        'edited',
+        'submited',
+        'updated'];
+    if (!(enteredStatus in statusList))// check if it is an acceptable progress
+        res.status(422).json({
+            success: false,
+            message: "invalid status",
+            error: "valid status list:" + statusList
+        });
+    Application.updateOne({ _id: id }, { status: enteredStatus })
         .exec()
-        .then(doc => {
-            if (doc) {
+        .then(result => {
+            if (result) {
                 res.status(200).json({
                     success: true,
-                    message: "update application successfull",
+                    message: "application status updated to" + enteredStatus,
                     payload: {
-                        application: doc
+                        result: result
                     }
                 });
             } else {
-                res
-                    .status(404)
-                    .json({
-                        success: false,
-                        message: "No valid application found for account"
-                    });
+                res.status(404).json({
+                    success: false,
+                    message: "No valid application found for given id:" + id
+                });
             }
         })
         .catch(err => {
@@ -212,26 +202,39 @@ exports.updateById = (req, res) => {
         });
 };
 
-exports.checkApplication = (req, res) => {
+exports.setStatusById = (req, res) => {
     const id = req.params.applicationId;
-    Application.updateOne({ _id: id }, { isChecked: true })
+    const enteredStatus = req.body.status;
+    const statusList = [
+        'checked',
+        'updateRequested',
+        'confirmed',
+        'rejected',
+        'assessed',
+        'accepted',
+        'announced'];
+    if (!(enteredStatus in statusList))// check if it is an acceptable progress
+        res.status(422).json({
+            success: false,
+            message: "invalid status",
+            error: "valid status list:" + statusList
+        });
+    Application.updateOne({ _id: id }, { status: enteredStatus })
         .exec()
-        .then(doc => {
-            if (doc) {
+        .then(result => {
+            if (result) {
                 res.status(200).json({
                     success: true,
-                    message: "check application successfull",
+                    message: "application status updated to" + enteredStatus,
                     payload: {
-                        result: doc
+                        result: result
                     }
                 });
             } else {
-                res
-                    .status(404)
-                    .json({
-                        success: false,
-                        message: "No valid application found for id"
-                    });
+                res.status(404).json({
+                    success: false,
+                    message: "No valid application found for given id:" + id
+                });
             }
         })
         .catch(err => {
@@ -244,37 +247,6 @@ exports.checkApplication = (req, res) => {
         });
 };
 
-exports.confirmApplication = (req, res) => {
-    const id = req.params.applicationId;
-    Application.updateOne({ _id: id }, { applicationConfirmed: true })
-        .exec()
-        .then(doc => {
-            if (doc) {
-                res.status(200).json({
-                    success: true,
-                    message: "confirm application successfull",
-                    payload: {
-                        result: doc
-                    }
-                });
-            } else {
-                res
-                    .status(404)
-                    .json({
-                        success: false,
-                        message: "No valid application found for id"
-                    });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                success: false,
-                message: "update application fail",
-                error: err
-            });
-        });
-};
 
 exports.assessApplication = (req, res) => {
     const id = req.params.applicationId;
@@ -285,38 +257,6 @@ exports.assessApplication = (req, res) => {
                 res.status(200).json({
                     success: true,
                     message: "assess application successfull",
-                    payload: {
-                        result: doc
-                    }
-                });
-            } else {
-                res
-                    .status(404)
-                    .json({
-                        success: false,
-                        message: "No valid application found for id"
-                    });
-            }
-        })
-        .catch(err => {
-            console.log(err);
-            res.status(500).json({
-                success: false,
-                message: "update application fail",
-                error: err
-            });
-        });
-};
-
-exports.confirmAssessment = (req, res) => {
-    const id = req.params.applicationId;
-    Application.updateOne({ _id: id }, { assessmentConfirmed: true })
-        .exec()
-        .then(doc => {
-            if (doc) {
-                res.status(200).json({
-                    success: true,
-                    message: "accept assessment successfull",
                     payload: {
                         result: doc
                     }

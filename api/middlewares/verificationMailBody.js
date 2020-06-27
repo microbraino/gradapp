@@ -1,3 +1,4 @@
+const config = require('../config/cors');
 module.exports = function (account, code) {
     return `<div id="m_465539474959039174maincontent" style="max-width:620px;font-size:0;margin:0 auto">
                  <table style="width:100%" cellspacing="0" cellpadding="0" border="0">
@@ -14,11 +15,11 @@ module.exports = function (account, code) {
                                                     <tbody>
                                                         <tr>
                                                             <td style="padding:20px 0 10px 0">
-                                                                <a href="http://commerchant.herokuapp.com/swagger"
+                                                                <a href="${config.apiServer}"
                                                                     style="text-decoration:none" target="_blank"
-                                                                    data-saferedirecturl="http://commerchant.herokuapp.com/swagger"><img
+                                                                    data-saferedirecturl="${config.apiServer}swagger"><img
                                                                         alt="IZTECH"
-                                                                        src="http://commerchant.herokuapp.com/public/iyte_logo-tur.png"
+                                                                        src="${config.apiServer}public/iyte_logo-tur.png"
                                                                         style="display:block;width:152px!important;font-family:'Open+Sans','Open Sans',Helvetica,Arial,sans-serif;font-size:22px;line-height:26px;color:#000000;text-transform:uppercase;text-align:center;letter-spacing:1px"
                                                                         class="CToWUd" width="152" height="152" border="0"></a>
                                                             </td>
@@ -76,10 +77,10 @@ module.exports = function (account, code) {
                                                                                             <tr>
                                                                                                 <td valign="top" align="center">
             
-                                                                                                    <a href="http://commerchant.herokuapp.com/accounts/verify/${code}"
+                                                                                                    <a href="${config.apiServer}accounts/verify/${code}"
                                                                                                         style="background-color:#01b3e3;border-collapse:separate!important;border-top:10px solid #01b3e3;border-bottom:10px solid #01b3e3;border-right:45px solid #01b3e3;border-left:45px solid #01b3e3;border-radius:4px;color:#ffffff;display:inline-block;font-family:'Open+Sans','Open Sans',Helvetica,Arial,sans-serif;font-size:14px;text-align:center;text-decoration:none;letter-spacing:2px"
                                                                                                         target="_blank"
-                                                                                                        data-saferedirecturl="http://commerchant.herokuapp.com/accounts/verify/${code}">VERIFY EMAIL
+                                                                                                        data-saferedirecturl="${config.apiServer}accounts/verify/${code}">VERIFY EMAIL
                                                                                                     </a>            
                                                                                                 </td>
                                                                                             </tr>
@@ -95,10 +96,10 @@ module.exports = function (account, code) {
                                                                                         browser:</p>
                                                                                     <p
                                                                                         style="Margin:20px 0;font-size:16px;line-height:17px;word-wrap:break-word;word-break:break-all">
-                                                                                        <a href="http://commerchant.herokuapp.com/accounts/verify/${code}"
+                                                                                        <a href="${config.apiServer}accounts/verify/${code}"
                                                                                             style="text-decoration:none;color:#00afe1"
                                                                                             target="_blank"
-                                                                                            data-saferedirecturl="http://commerchant.herokuapp.com/accounts/verify/${code}">http://commerchant.herokuapp.com/accounts/verify/${code}                                   </a>
+                                                                                            data-saferedirecturl="${config.apiServer}accounts/verify/${code}">${config.apiServer}accounts/verify/${code}                                   </a>
                                                                                     </p>
                                                                                 </td>
                                                                             </tr>

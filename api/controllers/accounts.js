@@ -83,6 +83,48 @@ exports.registApplicant = (req, res) => {
     });
 };
 
+exports.resendVerification = (req, res) => {
+
+    Account.getByEmail(req.body.email, (err, account) => {
+        if (err) throw err;
+        if (!account) {
+            return res.status(401).json({
+                success: false,
+                message: "login failed! invalid email or password"
+            });
+        }
+        Account.comparePassword(req.body.password, account.password, (err, isMatch) => {
+            if (err) throw err;
+            if (isMatch) {
+                //send verification code
+                const mailBody = require('../middlewares/verificationMailBody');
+                const message = mailBody(account, account._id);
+                const mail = {
+                    from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                    to: account.email, // list of receivers
+                    subject: "Verify Your Email on IZTECH Gradapp", // Subject line
+                    text: "", // plain text body
+                    html: message, // html body
+                };
+                mailer.send(mail);
+                return res.status(201).json({
+                    success: true,
+                    message: "verification code sended to account mail",
+                    payload: null
+                });
+            } else {
+                return res.status(401).json({
+                    success: false,
+                    message: "login failed! invalid email or password"
+                });
+            }
+        });
+    });
+
+
+
+};
+
 exports.registStaff = (req, res) => {
     if (!config.roles.includes(req.body.role))
         return res.status(409).json({

@@ -1,5 +1,6 @@
 module.exports = {
     database: "mongodb+srv://microbrain:" + "spy.net61" + "@commerchant-4dygy.mongodb.net/test?retryWrites=true&w=majority",
+    apiServer: 'http://commerchant.herokuapp.com/',//for static redirections
     secret: 'commerchant-secret',
     tokenTTL: 86400, // for 1 week time in seconds
     documentPath: './documents',

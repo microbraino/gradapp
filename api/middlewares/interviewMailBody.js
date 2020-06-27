@@ -1,5 +1,5 @@
 const config = require('../config/cors');
-module.exports = function (notifidcation) {
+module.exports = function (interview, account) {
     return `<div id="m_465539474959039174maincontent" style="max-width:620px;font-size:0;margin:0 auto">
     <table style="width:100%" cellspacing="0" cellpadding="0" border="0">
         <tbody>
@@ -57,16 +57,18 @@ module.exports = function (notifidcation) {
                                                                     <td>
                                                                         <p
                                                                             style="Margin:0px 0px 20px 0px;font-size:17px;line-height:23px;color:#102231">
-                                                                            Announcement Notification!
+                                                                            Interview Appointment!
                                                                         </p>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td
                                                                         style="font-family:Arial,Helvetica,sans-serif;color:#363636;font-size:16px">
-                                                                        You have a new notification. <br>To see all notification on your account, please click the button:
+                                                                        Dear ${account.name} ${account.surname},<br> an interview appointment setted for you. Please be preapared on time at given location:
                                                                         <br><br>
-                                                                        ${notifidcation.note} <br><br>
+                                                                        Applicant: ${account.name} ${account.surname}<br>
+                                                                        Date: ${interview.date}<br>
+                                                                        Location: ${interview.location}<br><br>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
