@@ -2,7 +2,7 @@ const Account = require('../models/Account');
 const Application = require('../models/Application');
 const jwt = require('jsonwebtoken');
 const config = require('../config/cors');
-const nodemailer = require("nodemailer");
+const mailer = require("../middlewares/mailler");//change this
 
 exports.registApplicant = (req, res) => {
     const newAccount = new Account({
@@ -51,46 +51,17 @@ exports.registApplicant = (req, res) => {
                 });
 
             //send verification code
-            try {
-                let transporter = nodemailer.createTransport({
-                    host: "smtp.mailtrap.io",
-                    port: 2525,
-                    secure: false, // true for 465, false for other ports
-                    auth: {
-                        user: "04915a8d2e268b", // generated ethereal user
-                        pass: "465915da6ed8fa", // generated ethereal password
-                    },
-                });
-                // const message = "Hi " + Abdulkadir + ",\n" +
-                //     "To complete your sign up, please verify your email:\n";
-                const mailBody = require('../middlewares/verificationMailBody');
-                const message = mailBody(newAccount, doc._id);
-                let testmail = {
-                    from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
-                    to: newAccount.email, // list of receivers
-                    subject: "Verify Your Email on IZTECH Gradapp", // Subject line
-                    text: "", // plain text body
-                    html: message, // html body
-                };
-                let info = transporter.sendMail(testmail, (error, info) => {
-                    if (error) {
-                        console.log('Error occured while sending mail');
-                        return res.status(500).json({
-                            success: false,
-                            message: null,
-                            error: error
-                        });
-                    }
-                    console.log('Message sent: %s', info.messageId);
-                });
-            } catch (error) {
-                console.log('Error occured while sending mail');
-                return res.status(500).json({
-                    success: false,
-                    message: null,
-                    error: error
-                });
+            const mailBody = require('../middlewares/verificationMailBody');
+            const message = mailBody(newAccount, doc._id);
+            const mail = {
+                from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                to: doc.email, // list of receivers
+                subject: "Verify Your Email on IZTECH Gradapp", // Subject line
+                text: "", // plain text body
+                html: message, // html body
             };
+            mailer.send(mail);
+
         }
     });
 };
@@ -121,6 +92,17 @@ exports.registStaff = (req, res) => {
                 error: err
             });
         } else {
+            //send verification code
+            const mailBody = require('../middlewares/verificationMailBody');
+            const message = mailBody(newAccount, account._id);
+            const mail = {
+                from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                to: account.email, // list of receivers
+                subject: "Verify Your Email on IZTECH Gradapp", // Subject line
+                text: "", // plain text body
+                html: message, // html body
+            };
+            mailer.send(mail);
             return res.status(201).json({
                 success: true,
                 message: "new staff registered successfully",

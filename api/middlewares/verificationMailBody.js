@@ -20,7 +20,7 @@ module.exports = function (account, code) {
                                                                         alt="IZTECH"
                                                                         src="http://commerchant.herokuapp.com/public/iyte_logo-tur.png"
                                                                         style="display:block;width:152px!important;font-family:'Open+Sans','Open Sans',Helvetica,Arial,sans-serif;font-size:22px;line-height:26px;color:#000000;text-transform:uppercase;text-align:center;letter-spacing:1px"
-                                                                        class="CToWUd" width="152" height="27" border="0"></a>
+                                                                        class="CToWUd" width="152" height="152" border="0"></a>
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -98,7 +98,7 @@ module.exports = function (account, code) {
                                                                                         <a href="http://commerchant.herokuapp.com/verify/${code}"
                                                                                             style="text-decoration:none;color:#00afe1"
                                                                                             target="_blank"
-                                                                                            data-saferedirecturl="http://commerchant.herokuapp.com/verify/${code}">http://commerchant.herokuapp.com/verify/${code}                                   </a>
+                                                                                            data-saferedirecturl="http://commerchant.herokuapp.com/accounts/verify/${code}">http://commerchant.herokuapp.com/verify/${code}                                   </a>
                                                                                     </p>
                                                                                 </td>
                                                                             </tr>
