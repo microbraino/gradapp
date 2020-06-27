@@ -14,7 +14,7 @@ exports.registApplicant = (req, res) => {
 
     //req.body.password.isMatch
     if (!strongRegex.test(req.body.password)) {//if password is not enaugh strong
-        return res.status(401).json({
+        return res.status(409).json({
             success: false,
             message: "Invalid password! The password must satisfy the strong password pattern",
             error: message

@@ -1,4 +1,5 @@
 const Notification = require("../models/Notification");
+const mailer = require('../middlewares/mailler');
 exports.getAll = (req, res) => {
     Notification.find() ///// should be revised again
         .exec()
@@ -66,8 +67,8 @@ exports.send = (req, res) => {
             const mailBody = require('../middlewares/notificationMailBody.js');
             const message = mailBody(result);
             const mail = {
-                from: '"IZTECH GRADAPP" ' + req.account.email, // sender address
-                to: result.email, // list of receivers
+                from: '"IZTECH GRADAPP" <' + result.from + '>', // sender address
+                to: result.to, // list of receivers
                 subject: result.title, // Subject line
                 text: "", // plain text body
                 html: message, // html body

@@ -1,5 +1,5 @@
 const config = require('../config/cors');
-module.exports = function (notifidcation) {
+module.exports = function (notification) {
     return `<div id="m_465539474959039174maincontent" style="max-width:620px;font-size:0;margin:0 auto">
     <table style="width:100%" cellspacing="0" cellpadding="0" border="0">
         <tbody>
@@ -55,19 +55,26 @@ module.exports = function (notifidcation) {
                                                             <tbody>
                                                                 <tr>
                                                                     <td>
-                                                                        <p
-                                                                            style="Margin:0px 0px 20px 0px;font-size:17px;line-height:23px;color:#102231">
-                                                                            Announcement Notification!
-                                                                        </p>
+                                                                    <p
+                                                                    style="
+                                                                      margin: 0px 0px 20px 0px;
+                                                                      font-size: 20px;
+                                                                      line-height: 23px;
+                                                                      color: #3dbff1;
+                                                                    "
+                                                                  >
+                                                                  ${notification.title}
+                                                                  </p>
                                                                     </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td
                                                                         style="font-family:Arial,Helvetica,sans-serif;color:#363636;font-size:16px">
-                                                                        You have a new notification. <br>To see all notification on your account, please click the button:
-                                                                        <br><br>
-                                                                        ${notifidcation.note} <br><br>
-                                                                    </td>
+                                                                        ${notification.note} <br><br>
+                                                                        <i style="color:#909090;font-size:14px">
+                                                                        You have received this notification from IZTECH gradapp system. <br>To see all notification on your account, please click the button:
+                                                                        </i>
+                                                                        </td>
                                                                 </tr>
                                                                 <tr>
                                                                     <td style="padding:15px 0 30px 0" align="center">
@@ -93,7 +100,7 @@ module.exports = function (notifidcation) {
                                                                 <tr>
                                                                     <td
                                                                     style="font-family:Arial,Helvetica,sans-serif;color:#363636;font-size:16px">
-                                                                    Good Luck :),
+                                                                    Sincerely,
                                                                     </td>
                                                                 </tr>
                                                                 <tr>

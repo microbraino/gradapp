@@ -8,21 +8,13 @@ exports.send = function (mail) {
         //     "To complete your sign up, please verify your email:\n";
         let info = transporter.sendMail(mail, (error, info) => {
             if (error) {
-                console.log('Error occured while sending mail');
-                return res.status(500).json({
-                    success: false,
-                    message: null,
-                    error: error
-                });
+                console.log('Error occured while sending mail ' + error);
+                return;
             }
             console.log('Message sent: %s', info.messageId);
         });
     } catch (error) {
-        console.log('Error occured while sending mail');
-        return res.status(500).json({
-            success: false,
-            message: null,
-            error: error
-        });
+        console.log('Error occured while sending mail ' + error);
+        return;
     };
 };
