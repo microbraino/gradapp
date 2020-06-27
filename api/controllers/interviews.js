@@ -1,4 +1,7 @@
 const Interview = require("../models/Interview");
+const Account = require("../models/Account");
+const mailer = require("../middlewares/mailler");
+
 
 exports.getAll = (req, res) => {
     Interview.find()
@@ -110,26 +113,62 @@ exports.set = (req, res) => {
         date: req.body.date,
         location: req.body.location
     });
-    newInterview
-        .save()
-        .then(result => {
-            console.log(result);
-            res.status(201).json({
-                success: true,
-                message: "Set interview successfully",
-                payload: {
-                    interview: result
-                }
-            });
+
+    Account.findOne({ _id: req.body.applicant })
+        .exec()
+        .then(doc => {
+            if (doc) {
+                newInterview
+                    .save()
+                    .then(result => {
+                        console.log(result);
+
+                        //send verification code
+                        const mailBody = require('../middlewares/notificationMailBody.js');
+                        const message = mailBody(result, doc);
+                        const mail = {
+                            from: '"IZTECH GRADAPP" ' + req.account.email, // sender address
+                            to: doc.email, // list of receivers
+                            subject: "Verify Your Email on IZTECH Gradapp", // Subject line
+                            text: "", // plain text body
+                            html: message, // html body
+                        };
+                        mailer.send(mail);
+
+                        res.status(201).json({
+                            success: true,
+                            message: "Set interview successfully",
+                            payload: {
+                                interview: result
+                            }
+                        });
+                    })
+                    .catch(err => {
+                        console.log(err);
+                        res.status(500).json({
+                            success: false,
+                            message: 'An error occured while set interview',
+                            error: err
+                        });
+                    });
+            } else {
+                res
+                    .status(404)
+                    .json({
+                        success: false,
+                        message: "No valid entry found for provided ID"
+                    });
+            }
         })
         .catch(err => {
             console.log(err);
             res.status(500).json({
                 success: false,
-                message: 'An error occured while set interview',
+                message: 'An error occured while retrieving data',
                 error: err
             });
         });
+
 };
 
 exports.apply = (req, res) => {
