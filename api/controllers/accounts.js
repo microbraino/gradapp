@@ -5,17 +5,18 @@ const config = require('../config/cors');
 const mailer = require("../middlewares/mailler");//change this
 
 exports.registApplicant = (req, res) => {
-    var strongRegex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[*.!@$%^&(){}[]:;<>,.?/~_+-=|\]).{8,32}$");
-    const message = "The password must contain at least 1 lowercase alphabetical character\n" +
-        "The password must contain at least 1 uppercase alphabetical character\n" +
-        "The password must contain at least 1 numeric character\n" +
-        "The password must contain at least one special character\n" +
-        "The password must be eight characters or longer\n"
+    var strongRegex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$");
+    const message = "At least one digit [0-9]\n" +
+        "At least one lowercase character [a-z]\n" +
+        "At least one uppercase character [A-Z]\n" +
+        "At least one special character [*.!@#$%^&(){}[]:;<>,.?/~_+-=|\]\n" +
+        "At least 8 characters in length, but no more than 32\n";
+
     //req.body.password.isMatch
     if (!strongRegex.test(req.body.password)) {//if password is not enaugh strong
-        return res.status(409).json({
+        return res.status(401).json({
             success: false,
-            message: "Invalid password!",
+            message: "Invalid password! The password must satisfy the strong password pattern",
             error: message
         });
     }
