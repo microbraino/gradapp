@@ -161,10 +161,6 @@ exports.updatePass = (req, res) => {
 
 exports.profile = (req, res) => {
     try {
-
-        const mailer = require('../middlewares/mailler');
-        mailer();
-
         Account.getById(req.account._id, (err, account) => {
             if (err) return res.status(401).json({
                 success: false,
