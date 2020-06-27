@@ -2,6 +2,7 @@ const Account = require('../models/Account');
 const Application = require('../models/Application');
 const jwt = require('jsonwebtoken');
 const config = require('../config/cors');
+const nodemailer = require("nodemailer");
 
 exports.registApplicant = (req, res) => {
     const newAccount = new Account({
@@ -12,6 +13,7 @@ exports.registApplicant = (req, res) => {
         phone: req.body.phone,
         address: req.body.address
     });
+
     Account.createNew(newAccount, (err, doc) => {
         if (err) {
             let message = "";
@@ -27,8 +29,6 @@ exports.registApplicant = (req, res) => {
                 applicant: doc._id,
                 program: req.body.program
             });
-            console.log(doc);
-            console.log(newApplication);
             newApplication
                 .save()
                 .then(app => {
@@ -36,7 +36,7 @@ exports.registApplicant = (req, res) => {
                         success: true,
                         message: "account registered and new application file is created successfully.",
                         payload: {
-                            account: newAccount,
+                            account: doc,
                             application: app
                         }
                     });
@@ -49,6 +49,54 @@ exports.registApplicant = (req, res) => {
                         error: err
                     });
                 });
+
+            //send verification code
+            try {
+                const token = jwt.sign({// create a token
+                    type: "account",
+                    data: doc
+                }, config.secret, {
+                    expiresIn: config.tokenTTL
+                });
+                let transporter = nodemailer.createTransport({
+                    host: "smtp.mailtrap.io",
+                    port: 2525,
+                    secure: false, // true for 465, false for other ports
+                    auth: {
+                        user: "04915a8d2e268b", // generated ethereal user
+                        pass: "465915da6ed8fa", // generated ethereal password
+                    },
+                });
+                // const message = "Hi " + Abdulkadir + ",\n" +
+                //     "To complete your sign up, please verify your email:\n";
+                const mailBody = require('../middlewares/verificationMailBody');
+                const message = mailBody(newAccount, token);
+                let testmail = {
+                    from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                    to: newAccount.email, // list of receivers
+                    subject: "Verify Your Email on IZTECH Gradapp", // Subject line
+                    text: "", // plain text body
+                    html: message, // html body
+                };
+                let info = transporter.sendMail(testmail, (error, info) => {
+                    if (error) {
+                        console.log('Error occured while sending mail');
+                        return res.status(500).json({
+                            success: false,
+                            message: null,
+                            error: error
+                        });
+                    }
+                    console.log('Message sent: %s', info.messageId);
+                });
+            } catch (error) {
+                console.log('Error occured while sending mail');
+                return res.status(500).json({
+                    success: false,
+                    message: null,
+                    error: error
+                });
+            };
         }
     });
 };
@@ -345,6 +393,32 @@ exports.updateById = (req, res) => {
         });
 };
 
+exports.verify = (req, res) => {
+    const token = req.params.verificationCode;
+    jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) return res.status(401).json({
+            success: false,
+            message: "Access token is missing or invalid",
+            error: err
+        });
+        const account = decoded.data;// if token is valid
+        Account.updateOne({ _id: account._id }, { isVerified: true })//verify account
+            .exec()
+            .then(result => {
+                res.status(200).redirect('/public/verified.html');
+            })
+            .catch(err => {
+                console.log(err);
+                res.status(500).json({
+                    success: false,
+                    message: 'An error occured while retrieving data',
+                    error: err
+                });
+            });
+    });
+
+
+};
 exports.delete = (req, res) => {
     const id = req.params.accountId;
     Account.deleteOne({ _id: id })

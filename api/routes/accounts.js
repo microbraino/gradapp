@@ -27,6 +27,9 @@ router.get('/all', authenticate(['admin']), accountController.getAll);
 // get all registered cordinators
 router.get('/coordinators', authenticate(['admin', 'gradschool']), accountController.getAllCoordinators);
 
+// get the entered tokens payload for authorization check
+router.get('/verify/:verificationCode', accountController.verify);
+
 // get an account by its id
 router.get('/:accountId', authenticate(['admin', 'gradschool', 'department']), accountController.getById);
 
