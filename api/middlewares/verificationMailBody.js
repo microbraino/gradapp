@@ -76,10 +76,10 @@ module.exports = function (account, code) {
                                                                                             <tr>
                                                                                                 <td valign="top" align="center">
             
-                                                                                                    <a href="http://commerchant.herokuapp.com/verify/${code}"
+                                                                                                    <a href="http://commerchant.herokuapp.com/accounts/verify/${code}"
                                                                                                         style="background-color:#01b3e3;border-collapse:separate!important;border-top:10px solid #01b3e3;border-bottom:10px solid #01b3e3;border-right:45px solid #01b3e3;border-left:45px solid #01b3e3;border-radius:4px;color:#ffffff;display:inline-block;font-family:'Open+Sans','Open Sans',Helvetica,Arial,sans-serif;font-size:14px;text-align:center;text-decoration:none;letter-spacing:2px"
                                                                                                         target="_blank"
-                                                                                                        data-saferedirecturl="http://commerchant.herokuapp.com/verify/${code}">VERIFY EMAIL
+                                                                                                        data-saferedirecturl="http://commerchant.herokuapp.com/accounts/verify/${code}">VERIFY EMAIL
                                                                                                     </a>            
                                                                                                 </td>
                                                                                             </tr>
@@ -95,10 +95,10 @@ module.exports = function (account, code) {
                                                                                         browser:</p>
                                                                                     <p
                                                                                         style="Margin:20px 0;font-size:16px;line-height:17px;word-wrap:break-word;word-break:break-all">
-                                                                                        <a href="http://commerchant.herokuapp.com/verify/${code}"
+                                                                                        <a href="http://commerchant.herokuapp.com/accounts/verify/${code}"
                                                                                             style="text-decoration:none;color:#00afe1"
                                                                                             target="_blank"
-                                                                                            data-saferedirecturl="http://commerchant.herokuapp.com/accounts/verify/${code}">http://commerchant.herokuapp.com/verify/${code}                                   </a>
+                                                                                            data-saferedirecturl="http://commerchant.herokuapp.com/accounts/verify/${code}">http://commerchant.herokuapp.com/accounts/verify/${code}                                   </a>
                                                                                     </p>
                                                                                 </td>
                                                                             </tr>
