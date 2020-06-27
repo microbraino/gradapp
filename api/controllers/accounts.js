@@ -126,6 +126,12 @@ exports.login = (req, res) => {
                 message: "login failed! invalid email or password"
             });
         }
+        if (!account.isVerified) {
+            return res.status(401).json({
+                success: false,
+                message: "unactivated account. please activate your account by clicking verification code on your email"
+            });
+        }
         Account.comparePassword(password, account.password, (err, isMatch) => {
             if (err) throw err;
             if (isMatch) {
