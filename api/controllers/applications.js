@@ -283,8 +283,8 @@ exports.assessApplication = (req, res) => {
 };
 
 exports.delete = (req, res) => {
-    const id = req.params.programId;
-    Application.remove({ _id: id })
+    const id = req.params.applicationId;
+    Application.deleteOne({ _id: id })
         .exec()
         .then(result => {
             res.status(200).json({
@@ -299,7 +299,7 @@ exports.delete = (req, res) => {
             console.log(err);
             res.status(500).json({
                 success: false,
-                message: null,
+                message: 'An error occurred while delete the document',
                 error: err
             });
         });

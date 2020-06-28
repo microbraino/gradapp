@@ -216,9 +216,24 @@ exports.login = (req, res) => {
 };
 
 exports.updatePass = (req, res) => {
-    const email = req.account.email;
     const oldPassword = req.body.old;
     const newPassword = req.body.new;
+
+    var strongRegex = new RegExp("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,32}$");
+    const message = "At least one digit [0-9]\n" +
+        "At least one lowercase character [a-z]\n" +
+        "At least one uppercase character [A-Z]\n" +
+        "At least one special character [*.!@#$%^&(){}[]:;<>,.?/~_+-=|\]\n" +
+        "At least 8 characters in length, but no more than 32\n";
+
+    //req.body.password.isMatch
+    if (!strongRegex.test(newPassword)) {//if password is not enaugh strong
+        return res.status(409).json({
+            success: false,
+            message: "Invalid new password! The password must satisfy the strong password pattern",
+            error: message
+        });
+    }
 
     Account.comparePassword(oldPassword, req.account.password, (err, isMatch) => {
         if (err) throw err;

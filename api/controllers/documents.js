@@ -94,70 +94,19 @@ exports.upload = (req, res) => {
         editDate: Date.now(),
         isComplete: true
     };
+    const filter = { storename: docObject.storename };
+    const option = { new: true, upsert: true, useFindAndModify: false };
 
-    Document.findOne({ storename: docObject.storename })
+    Document.findOneAndUpdate(filter, docObject, option)
         .exec()
         .then(doc => {
-            if (doc) {// if document already exists
-                Document.updateOne({ storename: docObject.storename }, docObject)
-                    .exec()
-                    .then(doc => {
-                        if (doc) {
-                            res.status(200).json({
-                                success: true,
-                                message: "document overwrited on existing one",
-                                payload: {
-                                    result: doc
-                                }
-                            });
-                        } else {
-                            res
-                                .status(404)
-                                .json({
-                                    success: false,
-                                    message: "No valid document found"
-                                });
-                        }
-                    })
-                    .catch(err => {
-                        fs.unlink(req.file.destination + '/' + req.file.filename, (err) => {
-                            if (err) throw err;
-                            console.log('successfully deleted /tmp/hello');
-                        });//remove uploaded file
-                        console.log(err);
-                        res.status(500).json({
-                            success: false,
-                            message: "update application fail",
-                            error: err
-                        });
-                    });
-            } else {
-                const newDocument = new Document(docObject);
-                newDocument
-                    .save()
-                    .then(result => {
-                        console.log(result);
-                        res.status(201).json({
-                            success: true,
-                            message: "uploaded file successfully",
-                            payload: {
-                                document: result
-                            }
-                        });
-                    })
-                    .catch(err => {
-                        fs.unlink(req.file.destination + '/' + req.file.filename, (err) => {
-                            if (err) throw err;
-                            console.log('successfully deleted');
-                        });//remove uploaded file
-                        console.log(err);
-                        res.status(500).json({
-                            success: false,
-                            message: null,
-                            error: err
-                        });
-                    });
-            }
+            res.status(200).json({
+                success: true,
+                message: "document uploaded",
+                payload: {
+                    document: doc
+                }
+            });
         })
         .catch(err => {
             fs.unlink(req.file.destination + '/' + req.file.filename, (err) => {
@@ -165,7 +114,11 @@ exports.upload = (req, res) => {
                 console.log('successfully deleted');
             });//remove uploaded file
             console.log(err);
-            res.status(500).json({ error: err });
+            res.status(500).json({
+                success: false,
+                message: "an error occured while uploading the file",
+                error: err
+            });
         });
 
 };
