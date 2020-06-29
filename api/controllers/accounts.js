@@ -72,7 +72,7 @@ exports.registApplicant = (req, res) => {
             const mailBody = require('../middlewares/verificationMailBody');
             const message = mailBody(newAccount, doc._id);
             const mail = {
-                from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                from: '"IZTECH GRADAPP" <gradapp.iztech@gmail.com>', // sender address
                 to: doc.email, // list of receivers
                 subject: "Verify Your Email on IZTECH Gradapp", // Subject line
                 text: "", // plain text body
@@ -101,7 +101,7 @@ exports.resendVerification = (req, res) => {
                 const mailBody = require('../middlewares/verificationMailBody');
                 const message = mailBody(account, account._id);
                 const mail = {
-                    from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                    from: '"IZTECH GRADAPP" <gradapp.iztech@gmail.com>', // sender address
                     to: account.email, // list of receivers
                     subject: "Verify Your Email on IZTECH Gradapp", // Subject line
                     text: "", // plain text body
@@ -153,7 +153,7 @@ exports.registStaff = (req, res) => {
             const mailBody = require('../middlewares/verificationMailBody');
             const message = mailBody(newAccount, account._id);
             const mail = {
-                from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                from: '"IZTECH GRADAPP" <gradapp.iztech@gmail.com>', // sender address
                 to: account.email, // list of receivers
                 subject: "Verify Your Email on IZTECH Gradapp", // Subject line
                 text: "", // plain text body
@@ -285,7 +285,7 @@ exports.forgetPass = (req, res) => {
             const mailBody = require('../middlewares/forgetPasswordMailBody');
             const message = mailBody(account, tempPassword);
             const mail = {
-                from: '"IZTECH GRADAPP" <authorization@gradapp.com>', // sender address
+                from: '"IZTECH GRADAPP" <gradapp.iztech@gmail.com>', // sender address
                 to: account.email, // list of receivers
                 subject: "Your IZTECH Gradapp password has been reset", // Subject line
                 text: "", // plain text body

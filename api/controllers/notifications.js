@@ -67,7 +67,7 @@ exports.send = (req, res) => {
             const mailBody = require('../middlewares/notificationMailBody.js');
             const message = mailBody(result);
             const mail = {
-                from: '"IZTECH GRADAPP" <' + result.from + '>', // sender address
+                from: '"IZTECH GRADAPP" <gradapp.iztech@gmail.com>', // sender address
                 to: result.to, // list of receivers
                 subject: result.title, // Subject line
                 text: "", // plain text body

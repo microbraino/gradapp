@@ -127,7 +127,7 @@ exports.set = (req, res) => {
                         const mailBody = require('../middlewares/interviewMailBody.js');
                         const message = mailBody(result, doc);
                         const mail = {
-                            from: '"IZTECH GRADAPP" ' + req.account.email, // sender address
+                            from: '"IZTECH GRADAPP" <gradapp.iztech@gmail.com>', // sender address
                             to: doc.email, // list of receivers
                             subject: "You have an interview appointment", // Subject line
                             text: "", // plain text body
