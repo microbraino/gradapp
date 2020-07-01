@@ -182,7 +182,7 @@ exports.setStatus = (req, res) => {
             if (result) {
                 res.status(200).json({
                     success: true,
-                    message: "application status updated to" + enteredStatus,
+                    message: "application status updated to: " + enteredStatus,
                     payload: {
                         result: result
                     }
@@ -227,7 +227,7 @@ exports.setStatusById = (req, res) => {
             if (result) {
                 res.status(200).json({
                     success: true,
-                    message: "application status updated to" + enteredStatus,
+                    message: "application status updated to: " + enteredStatus,
                     payload: {
                         result: result
                     }
@@ -252,7 +252,7 @@ exports.setStatusById = (req, res) => {
 
 exports.assessApplication = (req, res) => {
     const id = req.params.applicationId;
-    Application.updateOne({ _id: id }, { assessmentResult: req.bod.assessmentResult })
+    Application.updateOne({ _id: id }, { assessmentResult: req.body.assessmentResult })
         .exec()
         .then(doc => {
             if (doc) {
