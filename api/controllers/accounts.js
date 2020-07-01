@@ -509,22 +509,37 @@ exports.verify = (req, res) => {
 };
 exports.delete = (req, res) => {
     const id = req.params.accountId;
-    Account.deleteOne({ _id: id })
+    Account.findByIdAndDelete(id)
         .exec()
-        .then(result => {
-            if (result.deletedCount >= 1)
-                res.status(200).json({
-                    success: true,
-                    message: 'Account deleted',
-                    payload: {
-                        account: id
-                    }
-                })
-            else
+        .then(account => {
+            if (account) {
+                if (account.role === 'applicant')
+                    Application.findByIdAndDelete(id)
+                        .exec()
+                        .then(application => {
+                            res.status(200).json({
+                                success: true,
+                                message: 'Aplicant and Its Application file deleted',
+                                payload: {
+                                    applicant: account,
+                                    application: application
+                                }
+                            })
+                        })
+                        .catch(err => {
+                            console.log(err);
+                            res.status(500).json({
+                                success: false,
+                                message: 'An error occurred while delete the document',
+                                error: err
+                            });
+                        });
+            } else {
                 res.status(500).json({
                     success: false,
                     message: 'No valid entry found for provided ID'
                 });
+            }
         })
         .catch(err => {
             console.log(err);
@@ -534,4 +549,5 @@ exports.delete = (req, res) => {
                 error: err
             });
         });
+
 };

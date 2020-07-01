@@ -1,4 +1,5 @@
 const Application = require("../models/Application");
+const { application } = require("express");
 
 exports.getAll = (req, res) => {
     Application.find()
@@ -176,15 +177,15 @@ exports.setStatus = (req, res) => {
             message: "invalid status",
             error: "valid status list:" + statusList
         });
-    Application.updateOne({ _id: id }, { status: enteredStatus })
+    Application.findOneAndUpdate({ applicant: id }, { status: enteredStatus }, { useFindAndModify: false })
         .exec()
-        .then(result => {
-            if (result) {
+        .then(application => {
+            if (application) {
                 res.status(200).json({
                     success: true,
                     message: "application status updated to: " + enteredStatus,
                     payload: {
-                        result: result
+                        application: application
                     }
                 });
             } else {
@@ -222,15 +223,15 @@ exports.setStatusById = (req, res) => {
             message: "invalid status",
             error: "valid status list:" + statusList
         });
-    Application.updateOne({ _id: id }, { status: enteredStatus })
+    Application.findOneAndUpdate({ _id: id }, { status: enteredStatus }, { useFindAndModify: false })
         .exec()
-        .then(result => {
-            if (result) {
+        .then(application => {
+            if (application) {
                 res.status(200).json({
                     success: true,
                     message: "application status updated to: " + enteredStatus,
                     payload: {
-                        result: result
+                        application: application
                     }
                 });
             } else {
