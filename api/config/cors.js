@@ -15,22 +15,22 @@ module.exports = {
     //         pass: "465915da6ed8fa", // generated ethereal password
     //     },
     // },
-    mailTransporter: {
-        host: "smtp.sendgrid.net",
-        port: 465,
-        secure: true, // true for 465, false for other ports
-        auth: {
-            user: "apikey", // generated ethereal user
-            pass: "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", // generated ethereal password
-        },
-    },
     // mailTransporter: {
-    //     host: "smtp.gmail.com",
+    //     host: "smtp.sendgrid.net",
     //     port: 465,
     //     secure: true, // true for 465, false for other ports
     //     auth: {
-    //         user: "gradapp.iztech@gmail.com", // generated ethereal user
-    //         pass: "Asd12345", // generated ethereal password
+    //         user: "apikey", // generated ethereal user
+    //         pass: "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", // generated ethereal password
     //     },
-    // }
+    // },
+    mailTransporter: {
+        host: "smtp.gmail.com",
+        port: 465,
+        secure: true, // true for 465, false for other ports
+        auth: {
+            user: "gradapp.iztech@gmail.com", // generated ethereal user
+            pass: "Asd12345", // generated ethereal password
+        },
+    }
 }
