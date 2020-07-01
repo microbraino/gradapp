@@ -170,8 +170,8 @@ exports.setStatus = (req, res) => {
         'edited',
         'submited',
         'updated'];
-    if (!(enteredStatus in statusList))// check if it is an acceptable progress
-        res.status(422).json({
+    if (!(statusList.includes(enteredStatus)))// check if it is an acceptable progress
+        return res.status(422).json({
             success: false,
             message: "invalid status",
             error: "valid status list:" + statusList
@@ -215,8 +215,8 @@ exports.setStatusById = (req, res) => {
         'assessed',
         'accepted',
         'announced'];
-    if (!(enteredStatus in statusList))// check if it is an acceptable progress
-        res.status(422).json({
+    if (!(statusList.includes(enteredStatus)))// check if it is an acceptable progress
+        return res.status(422).json({
             success: false,
             message: "invalid status",
             error: "valid status list:" + statusList
