@@ -210,6 +210,7 @@ exports.setStatusById = (req, res) => {
     const statusList = [
         'checked',
         'updateRequested',
+        'interviewSetted',
         'confirmed',
         'rejected',
         'assessed',
