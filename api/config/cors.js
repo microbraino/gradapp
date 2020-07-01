@@ -25,9 +25,9 @@ module.exports = {
     //     },
     // },
     mailTransporter: {
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true, // true for 465, false for other ports
+        service: "Gmail",
+        // port: 465,
+        // secure: true, // true for 465, false for other ports
         auth: {
             user: "gradapp.iztech@gmail.com", // generated ethereal user
             pass: "Asd12345", // generated ethereal password
