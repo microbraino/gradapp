@@ -100,10 +100,14 @@ exports.getById = (req, res) => {
 
 exports.update = (req, res) => {
     const id = req.params.programId;
+
+    console.log("programaaaaa update body: ");
+
+    const keys = Object.keys(req.body);
     const updateOps = {};
-    for (const ops of req.body) {
-        updateOps[ops.propName] = ops.value;
-    }
+    keys.forEach(key => {
+        updateOps[key] = req.body[key];
+    });
     Program.update({ _id: id }, { $set: updateOps })
         .exec()
         .then(result => {
